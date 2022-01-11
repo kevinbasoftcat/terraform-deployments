@@ -1,7 +1,7 @@
 data "azuread_client_config" "current" {}
 
 resource "azuread_application" "example" {
-  display_name     = "Test App 1"
+  display_name     = "Managed Azure - (${var.customer_tenant_id})"
   #identifier_uris  = ["api://example-app"]
   #logo_image       = filebase64("/path/to/logo.png")
   owners           = [data.azuread_client_config.current.object_id]

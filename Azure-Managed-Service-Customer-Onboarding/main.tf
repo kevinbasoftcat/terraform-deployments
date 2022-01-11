@@ -108,7 +108,7 @@ resource "azuread_application" "example" {
    web {
     #  homepage_url  = "https://app.example.net"
     #  logout_url    = "https://app.example.net/logout"
-      redirect_uris = ["https://login.microsoftonline.com"]
+      redirect_uris = ["https://login.microsoftonline.com/"]
 
      implicit_grant {
        access_token_issuance_enabled = true

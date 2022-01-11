@@ -34,7 +34,7 @@ jobs:
         run: echo "The tenant id is ${{ github.event.inputs.customertenantid }}"
 
       - name: Terraform Validate
-        run: terraform validate -var-file=variables.tf
+        run: terraform validate
 
       - name: Terraform Plan
         run: terraform plan -var customer_tenant_id=${{ github.event.inputs.customertenantid }}

@@ -29,10 +29,10 @@ jobs:
       - name: Terraform Init
         run: terraform init
         
-      - name: Terraform Validate -var 'customer_tenant_id=${github.event.inputs.CustomerTenantId}'
+      - name: Terraform Validate -var 'customer_tenant_id=${{ github.event.inputs.CustomerTenantID }}'
         run: terraform validate
 
-      - name: Terraform Plan -var 'customer_tenant_id=${github.event.inputs.CustomerTenantId}'
+      - name: Terraform Plan -var 'customer_tenant_id=${{ github.event.inputs.CustomerTenantID}}'
         run: terraform plan
         
       # - name: Terraform Apply

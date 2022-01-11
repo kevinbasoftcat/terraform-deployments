@@ -3,9 +3,10 @@ name: Terraform Apply
 on: 
   workflow_dispatch:
     inputs:
-      CustomerTenantID:
+      customertenantid:
         description: 'Please provide the customer Azure AD Tenant ID'
         required: true
+        type: string
 defaults:
   run:
     working-directory: ./Azure-Managed-Service-Customer-Onboarding
@@ -28,12 +29,15 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        
+
+      - name: echo
+        run: echo The tenant id is ${{ inputs.customertenantid }}
+
       - name: Terraform Validate
-        run: terraform validate -var customer_tenant_id=${{ inputs.CustomerTenantID }}
+        run: terraform validate -var customer_tenant_id=${{ inputs.customertenantid }}
 
       - name: Terraform Plan
-        run: terraform plan -var customer_tenant_id=${{ inputs.CustomerTenantID }}
+        run: terraform plan -var customer_tenant_id=${{ inputs.customertenantid }}
         
       # - name: Terraform Apply
       #   run: terraform apply --auto-approve

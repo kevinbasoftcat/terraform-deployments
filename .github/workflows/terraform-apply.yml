@@ -31,13 +31,13 @@ jobs:
         run: terraform init
 
       - name: echo
-        run: echo The tenant id is ${{ inputs.customertenantid }}
+        run: echo "The tenant id is ${{ github.event.inputs.customertenantid }}"
 
-      - name: Terraform Validate
-        run: terraform validate -var customer_tenant_id=${{ inputs.customertenantid }}
+      # - name: Terraform Validate
+      #   run: terraform validate -var customer_tenant_id=${{ inputs.customertenantid }}
 
-      - name: Terraform Plan
-        run: terraform plan -var customer_tenant_id=${{ inputs.customertenantid }}
+      # - name: Terraform Plan
+      #   run: terraform plan -var customer_tenant_id=${{ inputs.customertenantid }}
         
       # - name: Terraform Apply
       #   run: terraform apply --auto-approve

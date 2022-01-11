@@ -3,7 +3,7 @@ data "azuread_client_config" "current" {}
 resource "azuread_application" "example" {
   display_name     = "Managed Azure - (${var.customer_tenant_id})"
   identifier_uris  = ["https://login.microsoftonline.com"]
-  logo_image       = filebase64("/Softcat_Logo.png")
+  logo_image       = filebase64("Softcat_Logo.png")
   owners           = [data.azuread_client_config.current.object_id]
   sign_in_audience = "AzureADMultipleOrgs"
 
@@ -105,14 +105,14 @@ resource "azuread_application" "example" {
 #     }
 #   }
 
-#   web {
-#     homepage_url  = "https://app.example.net"
-#     logout_url    = "https://app.example.net/logout"
-#     redirect_uris = ["https://app.example.net/account"]
+   web {
+    #  homepage_url  = "https://app.example.net"
+    #  logout_url    = "https://app.example.net/logout"
+    #  redirect_uris = ["https://app.example.net/account"]
 
      implicit_grant {
        access_token_issuance_enabled = true
        id_token_issuance_enabled     = true
      }
-#    }
+    }
 }

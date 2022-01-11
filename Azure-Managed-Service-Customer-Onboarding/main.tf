@@ -88,6 +88,7 @@ resource "azuread_application" "example" {
        id   = "df021288-bdef-4463-88db-98f22de89214" # User.Read.All
        type = "Role"
      }
+   }
 
 #     resource_access {
 #       id   = "b4e74841-8e56-480b-be8b-910348b18b4c" # User.ReadWrite
@@ -113,5 +114,5 @@ resource "azuread_application" "example" {
        access_token_issuance_enabled = true
        id_token_issuance_enabled     = true
      }
-#   }
+#    }
 }

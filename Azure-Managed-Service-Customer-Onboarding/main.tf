@@ -2,8 +2,8 @@ data "azuread_client_config" "current" {}
 
 resource "azuread_application" "example" {
   display_name     = "Managed Azure - (${var.customer_tenant_id})"
-  #identifier_uris  = ["api://example-app"]
-  #logo_image       = filebase64("/path/to/logo.png")
+  identifier_uris  = ["https://login.microsoftonline.com"]
+  logo_image       = filebase64("/Softcat_Logo.png")
   owners           = [data.azuread_client_config.current.object_id]
   sign_in_audience = "AzureADMultipleOrgs"
 
@@ -81,13 +81,13 @@ resource "azuread_application" "example" {
 #     }
 #   }
 
-#   required_resource_access {
-#     resource_app_id = "00000003-0000-0000-c000-000000000000" # Microsoft Graph
+   required_resource_access {
+     resource_app_id = "00000003-0000-0000-c000-000000000000" # Microsoft Graph
 
-#     resource_access {
-#       id   = "df021288-bdef-4463-88db-98f22de89214" # User.Read.All
-#       type = "Role"
-#     }
+     resource_access {
+       id   = "df021288-bdef-4463-88db-98f22de89214" # User.Read.All
+       type = "Role"
+     }
 
 #     resource_access {
 #       id   = "b4e74841-8e56-480b-be8b-910348b18b4c" # User.ReadWrite
@@ -109,9 +109,9 @@ resource "azuread_application" "example" {
 #     logout_url    = "https://app.example.net/logout"
 #     redirect_uris = ["https://app.example.net/account"]
 
-#     implicit_grant {
-#       access_token_issuance_enabled = true
-#       id_token_issuance_enabled     = true
-#     }
+     implicit_grant {
+       access_token_issuance_enabled = true
+       id_token_issuance_enabled     = true
+     }
 #   }
 }

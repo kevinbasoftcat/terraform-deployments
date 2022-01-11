@@ -4,7 +4,7 @@ on: [workflow_dispatch]
 
 defaults:
   run:
-    working-directory: .
+    working-directory: ./Azure-Managed-Service-Customer-Onboarding
 
 jobs:
   terraform:

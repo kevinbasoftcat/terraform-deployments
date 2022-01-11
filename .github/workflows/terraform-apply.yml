@@ -29,11 +29,11 @@ jobs:
       - name: Terraform Init
         run: terraform init
         
-      - name: Terraform Validate -var 'customer_tenant_id=${{ github.event.inputs.CustomerTenantID }}'
-        run: terraform validate
+      - name: Terraform Validate
+        run: terraform validate -var 'customer_tenant_id=${{ github.event.inputs.CustomerTenantID }}'
 
-      - name: Terraform Plan -var 'customer_tenant_id=${{ github.event.inputs.CustomerTenantID}}'
-        run: terraform plan
+      - name: Terraform Plan
+        run: terraform plan -var 'customer_tenant_id=${{ github.event.inputs.CustomerTenantID }}'
         
       # - name: Terraform Apply
       #   run: terraform apply --auto-approve

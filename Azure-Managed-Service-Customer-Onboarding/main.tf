@@ -1,6 +1,6 @@
 data "azuread_client_config" "current" {}
 
-resource "azuread_application" "example" {
+resource "azuread_application" "deployment_app" {
   display_name     = "Managed Azure - (${var.customer_tenant_id})"
 #  identifier_uris  = ["https://login.microsoftonline.com"]
   logo_image       = filebase64("Softcat_Logo.png")

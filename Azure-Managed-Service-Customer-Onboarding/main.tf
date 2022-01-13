@@ -19,7 +19,7 @@ data "azuread_client_config" "current" {}
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_resource_group" "customer_tenant_rg" {
-  name = "Managed_Azure_(${var.customer_tenant_id})"
+  name = "ManagedAzure(${var.customer_tenant_id})"
   location = "UK South"
 }
 
@@ -72,5 +72,13 @@ resource "azurerm_key_vault_secret" "deployment_app_key_vault_secret" {
   name         = "deployment-app-secret"
   value        = azuread_application_password.deployment_app_key.value
   key_vault_id = azurerm_key_vault.customer_tenant_key_vault.id
+}
+
+resource "azurerm_storage_account" "customer_tenant_storage_account" {
+  name                     = "key-vault-${substr(var.customer_tenant_id, 0, 8 )}"
+  resource_group_name      = azurerm_resource_group.customer_tenant_rg.name
+  location                 = azurerm_resource_group.customer_tenant_rg.location
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
 }
 

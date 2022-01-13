@@ -16,4 +16,5 @@ output "application_key_id" {
 output "application_key_secret" {
     description = "The application key secret"
     value = azuread_application_password.deployment_app_key.value
+    sensitive = true
 }

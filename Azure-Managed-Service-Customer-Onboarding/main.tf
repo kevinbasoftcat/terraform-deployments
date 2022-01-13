@@ -18,6 +18,7 @@ data "azuread_client_config" "current" {}
 
 resource "azurerm_resource_group" "customer_tenant_rg" {
   name = "Managed_Azure_(${var.customer_tenant_id})"
+  location = "UK South"
 }
 
 resource "azurerm_key_vault" "customer_tenant_key_vault" {

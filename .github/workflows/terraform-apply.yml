@@ -1,4 +1,4 @@
-name: Managed Azure - Customer Tenant Onboarding
+name: Managed Azure Customer Tenant Onboarding
 
 on: 
   workflow_dispatch:
@@ -22,6 +22,7 @@ jobs:
       ARM_TENANT_ID: ${{secrets.ARM_TENANT_ID}}
 
     steps:
+      - name: Clone Repo
       - uses: actions/checkout@v2
 
       - name: Setup Terraform
@@ -31,10 +32,10 @@ jobs:
         run: terraform init -backend-config=resource_group_name=AzureMigrations -backend-config=storage_account_name=customerterraformstate -backend-config=container_name=customer-onboarding-state -backend-config=key=tfstate-${{ github.event.inputs.customertenantid }}.tfstate
 
       - name: Terraform Validate
-       run: terraform validate
+        run: terraform validate
 
       - name: Terraform Plan
-       run: terraform plan -var customer_tenant_id=${{ github.event.inputs.customertenantid }}
+        run: terraform plan -var customer_tenant_id=${{ github.event.inputs.customertenantid }}
         
       - name: Terraform Apply
-       run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }}
+        run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }}

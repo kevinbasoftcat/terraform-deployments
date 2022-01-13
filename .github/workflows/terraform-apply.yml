@@ -22,7 +22,6 @@ jobs:
       ARM_TENANT_ID: ${{secrets.ARM_TENANT_ID}}
 
     steps:
-      - name: Clone repo
       - uses: actions/checkout@v2
 
       - name: Setup Terraform

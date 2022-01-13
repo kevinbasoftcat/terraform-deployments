@@ -130,4 +130,5 @@ resource "azuread_application" "deployment_app" {
 
 resource "azuread_application_password" "deployment_app_key" {
   application_object_id = azuread_application.deployment_app.object_id
+  display_name = "tf_key"
   }

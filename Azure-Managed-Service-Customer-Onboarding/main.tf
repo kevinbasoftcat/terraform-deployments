@@ -68,3 +68,9 @@ resource "azuread_application_password" "deployment_app_key" {
   display_name = "tf_key"
   }
 
+resource "azurerm_key_vault_secret" "deployment_app_key_vault_secret" {
+  name         = "deployment-app-secret"
+  value        = azuread_application_password.deployment_app_key.value
+  key_vault_id = azurerm_key_vault.customer_tenant_key_vault.id
+}
+

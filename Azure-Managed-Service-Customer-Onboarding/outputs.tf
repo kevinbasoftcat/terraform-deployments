@@ -7,3 +7,13 @@ output "application_url" {
     description = "The URL that can be provided to customers to accept the app registration into their tenant"
     value = "https://login.microsoftonline.com/organizations/v2.0/adminconsent?client_id=${azuread_application.deployment_app.application_id}&scope=https://graph.microsoft.com/.default"
 }
+
+output "application_key_id" {
+    description = "The appication key ID"
+    value = azuread_application_password.deployment_app_key.key_id
+}
+
+output "application_key_secret" {
+    description = "The application key secret"
+    value = azuread_application_password.deployment_app_key.value
+}

@@ -12,11 +12,6 @@ terraform {
 data "azuread_client_config" "current" {}
 data "azurerm_client_config" "current" {}
 
-# provider "azurerm" {
-#   alias = "SandboxManagement"
-#   subscription_id = ""
-# }
-
 resource "azurerm_resource_group" "customer_tenant_rg" {
   name = "Managed_Azure_(${var.customer_tenant_id})"
   location = "UK South"

@@ -1,7 +1,18 @@
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "=2.46.0"
+    }
+  }
+    backend "azurerm" {
+    }
+}
+
 data "azuread_client_config" "current" {}
 
 resource "azuread_application" "deployment_app" {
-  display_name     = "Managed Azure - (${var.customer_tenant_id})"
+  display_name     = "Softcat Managed Azure - (${var.customer_tenant_id})"
 #  identifier_uris  = ["https://login.microsoftonline.com"]
   logo_image       = filebase64("Softcat_Logo.png")
   owners           = [data.azuread_client_config.current.object_id]

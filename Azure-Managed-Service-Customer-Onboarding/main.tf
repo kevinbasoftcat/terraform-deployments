@@ -75,7 +75,7 @@ resource "azurerm_key_vault_secret" "deployment_app_key_vault_secret" {
 }
 
 resource "azurerm_storage_account" "customer_tenant_storage_account" {
-  name                     = "key-vault-${substr(var.customer_tenant_id, 0, 8 )}"
+  name                     = "storageaccount${substr(var.customer_tenant_id, 0, 8 )}"
   resource_group_name      = azurerm_resource_group.customer_tenant_rg.name
   location                 = azurerm_resource_group.customer_tenant_rg.location
   account_tier             = "Standard"

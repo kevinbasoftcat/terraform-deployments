@@ -19,7 +19,7 @@ provider "azurerm" {
 }
 #Only required for Partner Sandbox due to Azure susbcription having to be created in second account and not directly in partner account
 provider "azurerm" {
-    alias = "Sandbox_Management"
+    alias = "sandbox_management"
     subscription_id = "4a5cde2a-d2d4-4646-b43a-e26f11754866"
     tenant_id = "a29bf5d3-0201-4786-99ec-ee3c2bf1f668"
 }
@@ -28,11 +28,13 @@ data "azuread_client_config" "current" {}
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_resource_group" "customer_tenant_rg" {
+  provider = "azurerm.sandbox_management"
   name = "Managed-Azure(${var.customer_tenant_id})"
   location = "UK South"
 }
 
 resource "azurerm_key_vault" "customer_tenant_key_vault" {
+  provider                    = "azurerm.sandbox_management"
   name                        = "key-vault-${substr(var.customer_tenant_id, 0, 8 )}"
   location                    = azurerm_resource_group.customer_tenant_rg.location
   resource_group_name         = azurerm_resource_group.customer_tenant_rg.name
@@ -88,12 +90,14 @@ resource "azuread_application_password" "deployment_app_key" {
   }
 
 resource "azurerm_key_vault_secret" "deployment_app_key_vault_secret" {
+  provider     = "azurerm.sandbox_management"
   name         = "deployment-app-secret"
   value        = azuread_application_password.deployment_app_key.value
   key_vault_id = azurerm_key_vault.customer_tenant_key_vault.id
 }
 
 resource "azurerm_storage_account" "customer_tenant_storage_account" {
+  provider                 = "azurerm.sandbox_management"
   name                     = "storageaccount${substr(var.customer_tenant_id, 0, 8 )}"
   resource_group_name      = azurerm_resource_group.customer_tenant_rg.name
   location                 = azurerm_resource_group.customer_tenant_rg.location

@@ -6,6 +6,9 @@ terraform {
     }
   }
     backend "azurerm" {
+      resource_group_name = "AzureMigrations"
+      storage_account_name = "customerterraformstate"
+      container_name = "customer-onboarding-state"
     }
 }
 

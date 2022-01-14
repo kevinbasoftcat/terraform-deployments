@@ -37,5 +37,5 @@ jobs:
       - name: Terraform Plan
         run: terraform plan -var customer_tenant_id=${{ github.event.inputs.customertenantid }}
         
-      # - name: Terraform Apply
-      #   run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve
+      - name: Terraform Apply
+        run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve

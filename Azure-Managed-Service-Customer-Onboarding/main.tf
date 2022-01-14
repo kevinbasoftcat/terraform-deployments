@@ -17,12 +17,18 @@ provider "azurerm" {
     
   }
 }
+#Only required for Partner Sandbox due to Azure susbcription having to be created in second account and not directly in partner account
+provider "azurerm" {
+    alias = "Sandbox_Management"
+    subscription_id = "4a5cde2a-d2d4-4646-b43a-e26f11754866"
+    tenant_id = "a29bf5d3-0201-4786-99ec-ee3c2bf1f668"
+}
 
 data "azuread_client_config" "current" {}
 data "azurerm_client_config" "current" {}
 
 resource "azurerm_resource_group" "customer_tenant_rg" {
-  name = "ManagedAzure(${var.customer_tenant_id})"
+  name = "Managed-Azure(${var.customer_tenant_id})"
   location = "UK South"
 }
 

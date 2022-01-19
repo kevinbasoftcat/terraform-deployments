@@ -21,13 +21,19 @@ provider "azurerm" {
 data "azuread_client_config" "current" {}
 data "azurerm_client_config" "current" {}
 
+resource "random_string" "resource_code" {
+  length = 5
+  special = false
+  upper = false
+}
+
 resource "azurerm_resource_group" "customer_tenant_rg" {
   name      = "Managed-Azure(${var.customer_tenant_id})"
   location  = "UK South"
 }
 
 resource "azurerm_key_vault" "customer_tenant_key_vault" {
-  name                        = "key-vault-${replace(var.customer_tenant_id, ".onmicrosoft.com", "")}"
+  name                        = "kv${random_string.resource_code.result} ${replace(var.customer_tenant_id, ".onmicrosoft.com", "")}"
   location                    = azurerm_resource_group.customer_tenant_rg.location
   resource_group_name         = azurerm_resource_group.customer_tenant_rg.name
   enabled_for_disk_encryption = false
@@ -88,7 +94,7 @@ resource "azurerm_key_vault_secret" "deployment_app_key_vault_secret" {
 }
 
 resource "azurerm_storage_account" "customer_tenant_storage_account" {
-  name                     = "sa${replace(var.customer_tenant_id, ".onmicrosoft.com", "")}"
+  name                     = "sa${random_string.resource_code.result} ${replace(var.customer_tenant_id, ".onmicrosoft.com", "")}"
   resource_group_name      = azurerm_resource_group.customer_tenant_rg.name
   location                 = azurerm_resource_group.customer_tenant_rg.location
   account_tier             = "Standard"

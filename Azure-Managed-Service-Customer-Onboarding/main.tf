@@ -33,7 +33,7 @@ resource "azurerm_resource_group" "customer_tenant_rg" {
 }
 
 resource "azurerm_key_vault" "customer_tenant_key_vault" {
-  name                        = "kv${random_string.resource_code.result} ${replace(var.customer_tenant_id, ".onmicrosoft.com", "")}"
+  name                        = "${replace(var.customer_tenant_id, ".onmicrosoft.com", "")}kv${random_string.resource_code.result}"
   location                    = azurerm_resource_group.customer_tenant_rg.location
   resource_group_name         = azurerm_resource_group.customer_tenant_rg.name
   enabled_for_disk_encryption = false
@@ -94,7 +94,7 @@ resource "azurerm_key_vault_secret" "deployment_app_key_vault_secret" {
 }
 
 resource "azurerm_storage_account" "customer_tenant_storage_account" {
-  name                     = "sa${random_string.resource_code.result} ${replace(var.customer_tenant_id, ".onmicrosoft.com", "")}"
+  name                     = "${replace(var.customer_tenant_id, ".onmicrosoft.com", "")}sa${random_string.resource_code.result}"
   resource_group_name      = azurerm_resource_group.customer_tenant_rg.name
   location                 = azurerm_resource_group.customer_tenant_rg.location
   account_tier             = "Standard"

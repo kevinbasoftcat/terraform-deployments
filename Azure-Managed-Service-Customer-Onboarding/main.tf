@@ -34,7 +34,7 @@ resource "azurerm_resource_group" "customer_tenant_rg" {
 }
 
 resource "azurerm_key_vault" "customer_tenant_key_vault" {
-  name                        = "kv${substr(replace(var.customer_tenant_id, ".onmicrosoft.com", ""), 0,17)}"
+  name                        = "kv${substr(replace(var.customer_tenant_id, ".onmicrosoft.com", ""), 0,17)}${random_string.resource_code.result}"
   location                    = azurerm_resource_group.customer_tenant_rg.location
   resource_group_name         = azurerm_resource_group.customer_tenant_rg.name
   enabled_for_disk_encryption = false

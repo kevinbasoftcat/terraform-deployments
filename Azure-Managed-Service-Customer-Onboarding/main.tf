@@ -25,15 +25,16 @@ resource "random_string" "resource_code" {
   length = 5
   special = false
   upper = false
+  min_numeric = 2
 }
 
 resource "azurerm_resource_group" "customer_tenant_rg" {
-  name      = "Managed-Azure(${var.customer_tenant_id})"
+  name      = "rg-managedazure-${var.customer_tenant_id}"
   location  = "UK South"
 }
 
 resource "azurerm_key_vault" "customer_tenant_key_vault" {
-  name                        = "${replace(var.customer_tenant_id, ".onmicrosoft.com", "")}kv${random_string.resource_code.result}"
+  name                        = "kv${replace(var.customer_tenant_id, ".onmicrosoft.com", "")}"
   location                    = azurerm_resource_group.customer_tenant_rg.location
   resource_group_name         = azurerm_resource_group.customer_tenant_rg.name
   enabled_for_disk_encryption = false
@@ -94,7 +95,8 @@ resource "azurerm_key_vault_secret" "deployment_app_key_vault_secret" {
 }
 
 resource "azurerm_storage_account" "customer_tenant_storage_account" {
-  name                     = "${replace(var.customer_tenant_id, ".onmicrosoft.com", "")}sa${random_string.resource_code.result}"
+  name                     = "sa${substr(replace(var.customer_tenant_id, ".onmicrosoft.com", ""), 0,20)}"
+  # name                     = "${replace(var.customer_tenant_id, ".onmicrosoft.com", "")}sa${random_string.resource_code.result}"
   resource_group_name      = azurerm_resource_group.customer_tenant_rg.name
   location                 = azurerm_resource_group.customer_tenant_rg.location
   account_tier             = "Standard"

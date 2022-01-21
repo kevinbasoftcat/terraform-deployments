@@ -6,9 +6,8 @@ terraform {
     }
   }
     backend "azurerm" {
-      resource_group_name = "AzureMigrations"
-      storage_account_name = "customerterraformstate"
-      container_name = "customer-onboarding-state"
+      resource_group_name = "rg-customeronboarding"
+      container_name = "tfstate-customeronboarding"
     }
 }
 
@@ -25,7 +24,8 @@ resource "random_string" "resource_code" {
   length = 5
   special = false
   upper = false
-  min_numeric = 1
+  lower = false
+  number = true
 }
 
 resource "azurerm_resource_group" "customer_tenant_rg" {

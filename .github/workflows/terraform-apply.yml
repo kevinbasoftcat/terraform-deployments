@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       customertenantid:
-        description: 'Please provide the customer Azure AD Tenant ID'
+        description: 'Please provide the customer Azure AD tenant initial default domain. This will be the unique onmicrosoft.com domain name'
         required: true
         type: string
 defaults:
@@ -29,7 +29,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
 
       - name: Terraform Init
-        run: terraform init -backend-config=key=tfstate-${{ github.event.inputs.customertenantid }}.tfstate
+        run: terraform init -backend-config=storage_account_name=${{secrets.STORAGE_ACCOUNT}} -backend-config=key=${{ github.event.inputs.customertenantid }}.tfstate
 
       - name: Terraform Validate
         run: terraform validate

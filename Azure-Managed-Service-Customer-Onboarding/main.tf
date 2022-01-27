@@ -83,10 +83,17 @@ resource "azuread_application" "deployment_app" {
     }
 }
 
+resource "time_rotating" "secret_rotation" {
+  rotation_hours = 1
+}
+
 resource "azuread_application_password" "deployment_app_key" {
   application_object_id = azuread_application.deployment_app.object_id
   display_name = "tf_key"
+    rotate_when_changed = {
+    rotation = time_rotating.secret_rotation.id
   }
+}
 
 resource "azurerm_key_vault_secret" "deployment_app_key_vault_secret" {
   name         = "deployment-app-secret"

@@ -42,9 +42,9 @@ jobs:
 
   create_file:
     runs-on: ubuntu-latest
-      defaults:
-        run:
-          working-directory: ./Azure-Managed-Service-Customer-Onboarding
+    defaults:
+      run:
+        working-directory: ./Azure-Managed-Service-Customer-Onboarding
     needs: terraform
       
     steps:

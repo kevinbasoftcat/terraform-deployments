@@ -22,13 +22,13 @@ jobs:
         run: |
           echo -n -e "test" > test.txt
 
-      # - name: setup git config
-      #   run: |
-      #   git config user.name "kevinbasoftcat"
-      #   git config user.email "<>"
+      - name: setup git config
+        run: |
+          git config user.name "kevinbasoftcat"
+          git config user.email "<>"
 
       - name: commit
         run: |
-        git add test.txt
-        git commit -m "add test file"
-        git push origin master
+          git add test.txt
+          git commit -m "add test file"
+          git push origin master

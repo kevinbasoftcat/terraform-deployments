@@ -7,9 +7,6 @@ on:
         description: 'Please provide the customer Azure AD tenant initial default domain. This will be the unique onmicrosoft.com domain name'
         required: true
         type: string
-defaults:
-  run:
-    working-directory: ./Azure-Managed-Service-Customer-Onboarding
 
 jobs:
   terraform:
@@ -45,15 +42,18 @@ jobs:
 
   create_file:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./Customer-Information
     needs: terraform
       
     steps:
       - name: checkout
         uses: actions/checkout@v2
-        
-      - name: Create customer information file
-        run: |
-          echo -n -e "${{ github.event.inputs.customertenantid }}" > ${{ github.event.inputs.customertenantid }}.txt
+
+      # - name: Create customer information file
+      #   run: |
+      #     echo -n -e "${{ github.event.inputs.customertenantid }}" > ${{ github.event.inputs.customertenantid }}.txt
 
       - name: setup git config
         run: |

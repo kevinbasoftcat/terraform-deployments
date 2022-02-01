@@ -7,13 +7,16 @@ on:
         description: 'Please provide the customer Azure AD tenant initial default domain. This will be the unique onmicrosoft.com domain name'
         required: true
         type: string
-defaults:
-  run:
-    working-directory: ./Azure-Managed-Service-Customer-Onboarding
+# defaults:
+#   run:
+#     working-directory: ./Azure-Managed-Service-Customer-Onboarding
 
 jobs:
   terraform:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-dorectory: ./Azure-Managed-Service-Customer-Onboarding
 
     env:
       ARM_CLIENT_ID: ${{secrets.ARM_CLIENT_ID}}
@@ -42,6 +45,9 @@ jobs:
 
   create_file:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Azure-Managed-Service-Customer-Onboarding
     steps:
       # - name: Create customer information file
       #   run: |

@@ -18,3 +18,8 @@ output "application_key_secret" {
     value = azuread_application_password.deployment_app_key.value
     sensitive = true
 }
+
+output "keyvault_name" {
+    description = "Name of the keyvault created for the customer"
+    value = azurerm_key_vault.customer_tenant_key_vault.name
+}

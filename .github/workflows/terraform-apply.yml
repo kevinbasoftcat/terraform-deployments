@@ -39,13 +39,9 @@ jobs:
         
       # - name: Terraform Apply
       #   run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve
-
-  write-version:
-    runs-on: ubuntu-latest
-    name: Write customer tenant and keyvault to file
-    
-      steps:
-        - name: Create file
-          uses: "finnp/create-file-action@master"
-              env:
-                FILE_NAME: "customer_information/${{ github.event.inputs.customertenantid }}.txt"
+  build:
+    runs-on: unbuntu-latest
+    steps:
+    - name: Create File
+      run: |
+        printf "Test" > test.txt

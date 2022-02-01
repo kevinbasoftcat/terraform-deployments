@@ -19,8 +19,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: create file
-        run: |
-        echo "test" > test.txt
+        run: echo -n -e "test" > test.txt
 
       - name: setup git config
         run: |

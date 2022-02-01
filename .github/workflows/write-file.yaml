@@ -24,35 +24,10 @@ jobs:
       - name: setup git config
         run: |
         git config user.name "GitHub Actions Bot"
-        got config user.email "<>"
+        git config user.email "<>"
 
       - name: commit
         run: |
         git add test.txt
-        got commit -m "add test file"
+        git commit -m "add test file"
         git push origin master
-jobs:
-  date:
-    runs-on: ubuntu-latest
-    steps:
-      # Checkout the branch
-      - name: checkout
-        uses: actions/checkout@v2
-
-      - name: save current date
-        run: |
-          # do some operation that changes a file in the git repo
-          date > time.txt
-
-      - name: setup git config
-        run: |
-          # setup the username and email. I tend to use 'GitHub Actions Bot' with no email by default
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
-
-      - name: commit
-        run: |
-          # Stage the file, commit and push
-          git add time.txt
-          git commit -m "new date commit"
-          git push origin master

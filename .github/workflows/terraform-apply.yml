@@ -44,8 +44,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Write customer tenant and keyvault to file
     
-    steps:
-      - name: Create file
-        uses: "finnp/create-file-action@master"
-            env:
-              FILE_NAME: "customer_information/${{ github.event.inputs.customertenantid }}.txt"
+      steps:
+        - name: Create file
+          uses: "finnp/create-file-action@master"
+              env:
+                FILE_NAME: "customer_information/${{ github.event.inputs.customertenantid }}.txt"

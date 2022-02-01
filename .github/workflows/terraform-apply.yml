@@ -28,14 +28,24 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
 
-      - name: Terraform Init
-        run: terraform init -backend-config=storage_account_name=${{secrets.STORAGE_ACCOUNT}} -backend-config=key=${{ github.event.inputs.customertenantid }}.tfstate
+      # - name: Terraform Init
+      #   run: terraform init -backend-config=storage_account_name=${{secrets.STORAGE_ACCOUNT}} -backend-config=key=${{ github.event.inputs.customertenantid }}.tfstate
 
-      - name: Terraform Validate
-        run: terraform validate
+      # - name: Terraform Validate
+      #   run: terraform validate
 
-      - name: Terraform Plan
-        run: terraform plan -var customer_tenant_id=${{ github.event.inputs.customertenantid }}
+      # - name: Terraform Plan
+      #   run: terraform plan -var customer_tenant_id=${{ github.event.inputs.customertenantid }}
         
-      - name: Terraform Apply
-        run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve
+      # - name: Terraform Apply
+      #   run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve
+
+  write-version:
+    runs-on: ubuntu-latest
+    name: Write customer tenant and keyvault to file
+    
+    steps:
+      - name: Create file
+        uses: "finnp/create-file-action@master"
+            env:
+              FILE_NAME: "customer_information/${{ github.event.inputs.customertenantid }}.txt"

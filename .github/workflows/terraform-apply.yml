@@ -44,5 +44,4 @@ jobs:
     runs-on: unbuntu-latest
     steps:
     - name: Create File
-      run: |
-        printf "Test" > test.txt
+      run: git commit -m "test.txt"

@@ -43,9 +43,9 @@ jobs:
   create_file:
     runs-on: ubuntu-latest
     needs: terraform
-     defaults:
-       run:
-         working-directory: ./Azure-Managed-Service-Customer-Onboarding
+      defaults:
+        run:
+          working-directory: ./Azure-Managed-Service-Customer-Onboarding
     steps:
       # - name: Create customer information file
       #   run: |

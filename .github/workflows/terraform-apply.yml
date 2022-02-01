@@ -39,3 +39,18 @@ jobs:
         
       - name: Terraform Apply
         run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve
+
+      - name: Create customer information file
+        run: |
+          echo -n -e "${{ github.event.inputs.customertenantid }}" > ${{ github.event.inputs.customertenantid }}.txt
+
+      - name: setup git config
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+
+      - name: commit
+        run: |
+          git add test.txt
+          git commit -m "Customer onboarded commit"
+          git push origin main

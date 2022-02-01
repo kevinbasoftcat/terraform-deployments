@@ -51,10 +51,10 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
 
-       - name: Create customer information file
-         run: |
-           echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}.txt
-           echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}.txt
+      - name: Create customer information file
+        run: |
+          echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}.txt
+          echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}.txt
 
       - name: Setup Git Config
         run: |

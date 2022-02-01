@@ -39,10 +39,3 @@ jobs:
         
       - name: Terraform Apply
         run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve
-# jobs:
-#   build:
-#     runs-on: unbuntu-latest
-#     steps:
-#     - uses: actions/checkout@v1
-#     - name: Create File
-#       run: git commit -m "test.txt"

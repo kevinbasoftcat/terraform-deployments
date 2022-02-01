@@ -1,0 +1,30 @@
+name: Write File to Repo
+
+on: 
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: ./Customer-Information
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: create file
+        run: |
+        printf "test" > test.txt
+
+      - name: setup git config
+        run: |
+        git config user.name "GitHub Actions Bot"
+        got config user.email "<>"
+
+      - name: commit
+        run: |
+        git add test.txt
+        got commit -m "add test file"
+        git push origin master

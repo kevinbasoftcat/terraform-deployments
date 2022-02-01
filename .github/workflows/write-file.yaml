@@ -20,7 +20,7 @@ jobs:
 
       - name: create file
         run: |
-        printf "test" > test.txt
+        echo "test" > test.txt
 
       - name: setup git config
         run: |

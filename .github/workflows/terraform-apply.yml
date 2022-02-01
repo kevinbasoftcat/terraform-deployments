@@ -51,16 +51,17 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
 
-      # - name: Create customer information file
-      #   run: |
-      #     echo -n -e "${{ github.event.inputs.customertenantid }}" > ${{ github.event.inputs.customertenantid }}.txt
+       - name: Create customer information file
+         run: |
+           echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}.txt
+           echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}.txt
 
-      - name: setup git config
+      - name: Setup Git Config
         run: |
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
-      - name: commit
+      - name: Add customer file to repository
         run: |
           git add ${{ github.event.inputs.customertenantid }}.txt
           git commit -m "Customer onboarded commit"

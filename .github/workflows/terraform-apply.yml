@@ -27,6 +27,8 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_wrapper: false
 
       - name: Terraform Init
         run: terraform init -backend-config=storage_account_name=${{secrets.STORAGE_ACCOUNT}} -backend-config=key=${{ github.event.inputs.customertenantid }}.tfstate
@@ -51,10 +53,17 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
 
+      - name: Set current date as env variable
+        run: echo "NOW::$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
+
+      - name: Get terraform output for key vault name
+        run: keyvault_name=$(terraform output keyvault_name)
+
       - name: Create customer information file
         run: |
-          echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}.txt
-          echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}.txt
+          echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}-$keyvault_name.txt
+          echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}-$keyvault_name.txt
+          echo $NOW                                         >>> ${{ github.event.inputs.customertenantid }}-$keyvault_name.txt
 
       - name: Setup Git Config
         run: |
@@ -63,6 +72,6 @@ jobs:
 
       - name: Add customer file to repository
         run: |
-          git add ${{ github.event.inputs.customertenantid }}.txt
+          git add ${{ github.event.inputs.customertenantid }}-$keyvault_name.txt
           git commit -m "Customer onboarded commit"
           git push origin main

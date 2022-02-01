@@ -53,8 +53,8 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
 
-      - name: Set current date as env variable
-        run: echo "NOW::$(date +'%Y-%m-%dT%H:%M:%S')" >> $GITHUB_ENV
+      - name: Set current date as a variable
+        run: currentDate='date'
 
       - name: Get terraform output for key vault name
         run: keyvault_name=$(terraform output keyvault_name)
@@ -63,7 +63,7 @@ jobs:
         run: |
           echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}-$keyvault_name.txt
           echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}-$keyvault_name.txt
-          echo $NOW                                         >>> ${{ github.event.inputs.customertenantid }}-$keyvault_name.txt
+          echo $currentDate                                 >>> ${{ github.event.inputs.customertenantid }}-$keyvault_name.txt
 
       - name: Setup Git Config
         run: |

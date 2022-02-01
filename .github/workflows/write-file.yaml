@@ -24,11 +24,11 @@ jobs:
 
       - name: setup git config
         run: |
-          git config user.name "kevinbasoftcat"
+          git config user.name "GitHub Actions Bot"
           git config user.email "<>"
 
       - name: commit
         run: |
           git add test.txt
           git commit -m "add test file"
-          git push origin master
+          git push origin main

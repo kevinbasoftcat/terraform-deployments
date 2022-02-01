@@ -9,7 +9,7 @@ on:
         type: string
 defaults:
   run:
-    working-directory: ./Customer-Information
+    working-directory: ./Azure-Managed-Service-Customer-Onboarding
 
 jobs:
   build:

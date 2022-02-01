@@ -11,7 +11,7 @@ defaults:
   run:
     working-directory: ./Azure-Managed-Service-Customer-Onboarding
 
-jobs:
+# jobs:
   # terraform:
   #   runs-on: ubuntu-latest
 
@@ -39,9 +39,9 @@ jobs:
         
       # - name: Terraform Apply
       #   run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve
-  build:
-    runs-on: unbuntu-latest
-    steps:
-    - name: Create File
-      run: |
-        printf "Test" > test.txt
+build:
+  runs-on: unbuntu-latest
+  steps:
+  - name: Create File
+    run: |
+      printf "Test" > test.txt

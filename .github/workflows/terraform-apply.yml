@@ -48,9 +48,9 @@ jobs:
     needs: terraform
       
     steps:
-       - name: Create customer information file
-         run: |
-           echo -n -e "${{ github.event.inputs.customertenantid }}" > ${{ github.event.inputs.customertenantid }}.txt
+      - name: Create customer information file
+        run: |
+          echo -n -e "${{ github.event.inputs.customertenantid }}" > ${{ github.event.inputs.customertenantid }}.txt
 
       - name: setup git config
         run: |

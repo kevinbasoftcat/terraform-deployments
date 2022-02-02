@@ -1,0 +1,2 @@
+Customer Tenant Domain: test01.onmicrosoft.com
+Customer KeyVault Name: kvtest0123396

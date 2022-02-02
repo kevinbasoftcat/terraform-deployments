@@ -44,7 +44,7 @@ jobs:
       - name: Terraform Apply
         run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve
       
-      - name: Call terraform output for keyvault name
+      - name: Call terraform output for Key Vault name and add to Git output
         id: keyvault_name
         run: |
           tfkeyvaultname=$(terraform output keyvault_name)
@@ -66,10 +66,9 @@ jobs:
 
       - name: Create customer information file
         run: |
-          echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.outputs.keyvaultname }}.txt
-          echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.outputs.keyvaultname }}.txt
-          echo "${{ needs.terraform.outputs.keyvaultname }}" >> ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.outputs.keyvaultname }}.txt
-          echo "${{ env.CURRENTDATE }}"                      >> ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.outputs.keyvaultname }}.txt
+          echo "Customer Repo Information - Last Updated ${{ env.CURRENTDATE }}"      > {{ github.event.inputs.customertenantid }}-${{ needs.terraform.outputs.keyvaultname }}.txt
+          echo "Customer Tenant Domain: ${{ github.event.inputs.customertenantid }}"  >> ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.outputs.keyvaultname }}.txt
+          echo "Customer KeyVault Name: ${{ needs.terraform.outputs.keyvaultname }}"  >> ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.outputs.keyvaultname }}.txt
 
       - name: Setup Git Config
         run: |

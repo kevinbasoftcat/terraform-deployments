@@ -46,7 +46,7 @@ jobs:
       
       - name: Get terraform output for key vault name
         id: keyvault_name
-         run: echo "::set-output name=keyvaultname::$(terraform output keyvault_name)"
+        run: echo "::set-output name=keyvaultname::$(terraform output keyvault_name)"
 
   create_file:
     runs-on: ubuntu-latest

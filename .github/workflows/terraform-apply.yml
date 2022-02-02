@@ -47,25 +47,22 @@ jobs:
     defaults:
       run:
         working-directory: ./Customer-Information
-    needs: terraform
       
     steps:
       - name: checkout
         uses: actions/checkout@v2
 
       - name: Set current date as a variable
-        id: currentdate
-        run: echo "::set-output name=currentdate::$(date +'%Y-%m-%d')"
+        run: echo "CURRENTDATE=$(date +'%Y-%m-%d')" >> GITHUB_ENV
 
       - name: Get terraform output for key vault name
-        id: keyvault_name
-        run: echo "::set-output name=keyvault_name::$(terraform output keyvault_name)"
+        run: echo "KEYVAULTNAME=$(terraform output keyvault_name)" >> GITHUB_ENV
 
       - name: Create customer information file
         run: |
-          echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}-${{ steps.keyvault_name.outputs.keyvault_name }}.txt
-          echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}-${{ steps.keyvault_name.outputs.keyvault_name }}.txt
-          echo ${{ steps.currentdate.outputs.currentdate }} >>> ${{ github.event.inputs.customertenantid }}-${{ steps.keyvault_name.outputs.keyvault_name }}.txt
+          echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}-${{ env.KEYVAULTNAME }}.txt
+          echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}-${{ env.KEYVAULTNAME }}.txt
+          echo ${{ env.CURRENTDATE }}                       >>> ${{ github.event.inputs.customertenantid }}-${{ env.KEYVAULTNAME }}.txt
 
       - name: Setup Git Config
         run: |
@@ -74,6 +71,6 @@ jobs:
 
       - name: Add customer file to repository
         run: |
-          git add ${{ github.event.inputs.customertenantid }}-${{ steps.keyvault_name.outputs.keyvault_name }}.txt
+          git add ${{ github.event.inputs.customertenantid }}-${{ env.KEYVAULTNAME }}.txt
           git commit -m "Customer onboarded commit"
           git push origin main

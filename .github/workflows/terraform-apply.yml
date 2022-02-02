@@ -61,9 +61,9 @@ jobs:
 
       - name: Create customer information file
         run: |
-          echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}-{{ $keyvault_name }}.txt
-          echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}-{{ $keyvault_name }}.txt
-          echo $currentDate                                 >>> ${{ github.event.inputs.customertenantid }}-{{ $keyvault_name }}.txt
+          echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}-${{ keyvault_name }}.txt
+          echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}-${{ keyvault_name }}.txt
+          echo $currentDate                                 >>> ${{ github.event.inputs.customertenantid }}-${{ keyvault_name }}.txt
 
       - name: Setup Git Config
         run: |
@@ -72,6 +72,6 @@ jobs:
 
       - name: Add customer file to repository
         run: |
-          git add ${{ github.event.inputs.customertenantid }}-{{ $keyvault_name }}.txt
+          git add ${{ github.event.inputs.customertenantid }}-${{ keyvault_name }}.txt
           git commit -m "Customer onboarded commit"
           git push origin main

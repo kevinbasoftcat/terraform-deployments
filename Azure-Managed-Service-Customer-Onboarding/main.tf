@@ -84,7 +84,7 @@ resource "azuread_application" "deployment_app" {
 }
 
 resource "time_rotating" "secret_rotation" {
-  rotation_hours = 1
+  rotation_months = 6
 }
 
 resource "azuread_application_password" "deployment_app_key" {

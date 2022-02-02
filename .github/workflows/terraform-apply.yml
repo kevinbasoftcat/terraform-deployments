@@ -47,6 +47,7 @@ jobs:
     defaults:
       run:
         working-directory: ./Customer-Information
+    needs: terraform
       
     steps:
       - name: checkout
@@ -62,7 +63,7 @@ jobs:
         run: |
           echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}-${{ env.KEYVAULTNAME }}.txt
           echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}-${{ env.KEYVAULTNAME }}.txt
-          echo ${{ env.CURRENTDATE }}                       >>> ${{ github.event.inputs.customertenantid }}-${{ env.KEYVAULTNAME }}.txt
+          echo "${{ env.CURRENTDATE }}"                     >>> ${{ github.event.inputs.customertenantid }}-${{ env.KEYVAULTNAME }}.txt
 
       - name: Setup Git Config
         run: |

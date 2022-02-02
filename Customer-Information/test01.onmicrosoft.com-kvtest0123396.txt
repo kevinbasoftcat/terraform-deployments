@@ -4,3 +4,5 @@ kvtest0123396
 2022-02-02 11:11:11
 Customer Tenant Domain: test01.onmicrosoft.com
 Customer KeyVault Name: kvtest0123396
+Customer Tenant Domain: test01.onmicrosoft.com
+Customer KeyVault Name: kvtest0123396

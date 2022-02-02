@@ -66,7 +66,7 @@ jobs:
 
       - name: Create customer information file
         run: |
-          echo "Customer Repo Information - Last Updated ${{ env.CURRENTDATE }}"      > {{ github.event.inputs.customertenantid }}-${{ needs.terraform.outputs.keyvaultname }}.txt
+          echo "Customer Repo Information - Last Updated ${{ env.CURRENTDATE }}"       > {{ github.event.inputs.customertenantid }}-${{ needs.terraform.outputs.keyvaultname }}.txt
           echo "Customer Tenant Domain: ${{ github.event.inputs.customertenantid }}"  >> ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.outputs.keyvaultname }}.txt
           echo "Customer KeyVault Name: ${{ needs.terraform.outputs.keyvaultname }}"  >> ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.outputs.keyvaultname }}.txt
 

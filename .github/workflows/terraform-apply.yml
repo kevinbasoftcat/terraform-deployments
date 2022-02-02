@@ -43,7 +43,8 @@ jobs:
         run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve
       
       - name: Get terraform output for key vault name
-        run: echo "KEYVAULTNAME=$(terraform output keyvault_name)" >> $GITHUB_ENV
+        id: keyvault_name
+        run: echo "::set-output name=keyvaultname::$(terraform output keyvault_name)"
 
   create_file:
     runs-on: ubuntu-latest
@@ -57,13 +58,13 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set current date as a variable
-        run: echo "CURRENTDATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
+        run: echo "CURRENTDATE=$(date +'%Y-%m-%d %T')" >> $GITHUB_ENV
 
       - name: Create customer information file
         run: |
-          echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}-${{ env.KEYVAULTNAME }}.txt
-          echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}-${{ env.KEYVAULTNAME }}.txt
-          echo "${{ env.CURRENTDATE }}"                      >> ${{ github.event.inputs.customertenantid }}-${{ env.KEYVAULTNAME }}.txt
+          echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}-${{ jobs.terraform.steps.keyvault_name.outputs.keyvaultname }}.txt
+          echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}-${{ jobs.terraform.steps.keyvault_name.outputs.keyvaultname }}.txt
+          echo "${{ env.CURRENTDATE }}"                      >> ${{ github.event.inputs.customertenantid }}-${{ jobs.terraform.steps.keyvault_name.outputs.keyvaultname }}.txt
 
       - name: Setup Git Config
         run: |
@@ -72,6 +73,6 @@ jobs:
 
       - name: Add customer file to repository
         run: |
-          git add ${{ github.event.inputs.customertenantid }}-${{ env.KEYVAULTNAME }}.txt
+          git add ${{ github.event.inputs.customertenantid }}-${{ jobs.terraform.steps.keyvault_name.outputs.keyvaultname }}.txt
           git commit -m "Customer onboarded commit"
           git push origin main

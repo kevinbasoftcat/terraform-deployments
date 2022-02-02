@@ -41,6 +41,9 @@ jobs:
         
       - name: Terraform Apply
         run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve
+      
+      - name: Get terraform output for key vault name
+        run: echo "KEYVAULTNAME=$(terraform output keyvault_name)"" >> $GITHUB_ENV
 
   create_file:
     runs-on: ubuntu-latest
@@ -54,10 +57,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set current date as a variable
-        run: echo CURRENTDATE=$(date +'%Y-%m-%d') >> $GITHUB_ENV
-
-      - name: Get terraform output for key vault name
-        run: echo KEYVAULTNAME=$(terraform output keyvault_name) >> $GITHUB_ENV
+        run: echo "CURRENTDATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
       - name: Create customer information file
         run: |

@@ -11,6 +11,8 @@ on:
 jobs:
   terraform:
     runs-on: ubuntu-latest
+    outputs:
+      keyvaultname:  ${{ steps.keyvault_name.outputs.kvname}}
     defaults:
       run:
         working-directory: ./Azure-Managed-Service-Customer-Onboarding
@@ -44,8 +46,7 @@ jobs:
       
       - name: Get terraform output for key vault name
         id: keyvault_name
-        # run: echo "::set-output name=keyvaultname::$(terraform output keyvault_name)"
-        run: echo "::set-output name=keyvaultname::test"
+         run: echo "::set-output name=keyvaultname::$(terraform output keyvault_name)"
 
   create_file:
     runs-on: ubuntu-latest
@@ -63,9 +64,9 @@ jobs:
 
       - name: Create customer information file
         run: |
-          echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}-${{ jobs.terraform.steps.keyvault_name.outputs.keyvaultname }}.txt
-          echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}-${{ jobs.terraform.steps.keyvault_name.outputs.keyvaultname }}.txt
-          echo "${{ env.CURRENTDATE }}"                      >> ${{ github.event.inputs.customertenantid }}-${{ jobs.terraform.steps.keyvault_name.outputs.keyvaultname }}.txt
+          echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.steps.keyvault_name.outputs.kvname }}.txt
+          echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.steps.keyvault_name.outputs.kvname }}.txt
+          echo "${{ env.CURRENTDATE }}"                      >> ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.steps.keyvault_name.outputs.kvname }}.txt
 
       - name: Setup Git Config
         run: |
@@ -74,6 +75,6 @@ jobs:
 
       - name: Add customer file to repository
         run: |
-          git add ${{ github.event.inputs.customertenantid }}-${{ jobs.terraform.steps.keyvault_name.outputs.keyvaultname }}.txt
+          git add ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.steps.keyvault_name.outputs.kvname }}.txt
           git commit -m "Customer onboarded commit"
           git push origin main

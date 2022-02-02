@@ -47,11 +47,7 @@ jobs:
       - name: Call terraform output for keyvault name
         run: |
           tfkeyvaultname=$(terraform output keyvault_name)
-          echo $tfkeyvaultname  
-
-      - name: Create output to include keyvault name
-        id: keyvault_name
-        run: echo "::set-output name=kvname::$tfkeyvaultname"
+          echo "::set-output name=kvname::$tfkeyvaultname"
 
   create_file:
     runs-on: ubuntu-latest
@@ -69,9 +65,9 @@ jobs:
 
       - name: Create customer information file
         run: |
-          echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.steps.keyvault_name.outputs.kvname }}.txt
-          echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.steps.keyvault_name.outputs.kvname }}.txt
-          echo "${{ env.CURRENTDATE }}"                      >> ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.steps.keyvault_name.outputs.kvname }}.txt
+          echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.steps.keyvault_name.outputs.keyvaultname }}.txt
+          echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.steps.keyvault_name.outputs.keyvaultname }}.txt
+          echo "${{ env.CURRENTDATE }}"                      >> ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.steps.keyvault_name.outputs.keyvaultname }}.txt
 
       - name: Setup Git Config
         run: |
@@ -80,6 +76,6 @@ jobs:
 
       - name: Add customer file to repository
         run: |
-          git add ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.steps.keyvault_name.outputs.kvname }}.txt
+          git add ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.steps.keyvault_name.outputs.keyvaultname }}.txt
           git commit -m "Customer onboarded commit"
           git push origin main

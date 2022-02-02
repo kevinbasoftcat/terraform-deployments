@@ -45,6 +45,7 @@ jobs:
         run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve
       
       - name: Call terraform output for keyvault name
+        id: keyvault_name
         run: |
           tfkeyvaultname=$(terraform output keyvault_name)
           echo "::set-output name=kvname::$tfkeyvaultname"
@@ -67,6 +68,7 @@ jobs:
         run: |
           echo "Customer Repo Information"                    > ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.outputs.keyvaultname }}.txt
           echo "${{ github.event.inputs.customertenantid }}" >> ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.outputs.keyvaultname }}.txt
+          echo "${{ needs.terraform.outputs.keyvaultname }}" >> ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.outputs.keyvaultname }}.txt
           echo "${{ env.CURRENTDATE }}"                      >> ${{ github.event.inputs.customertenantid }}-${{ needs.terraform.outputs.keyvaultname }}.txt
 
       - name: Setup Git Config

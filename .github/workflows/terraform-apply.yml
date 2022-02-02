@@ -51,7 +51,7 @@ jobs:
 
       - name: Create output to include keyvault name
         id: keyvault_name
-        run: echo "::set-output name=keyvaultname::$tfkeyvaultname"
+        run: echo "::set-output name=kvname::$tfkeyvaultname"
 
   create_file:
     runs-on: ubuntu-latest

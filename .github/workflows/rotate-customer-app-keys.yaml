@@ -41,7 +41,7 @@ jobs:
         echo "::set-output name=matrix::${JSON}"
         
   re-run-customer-deployments:
-    needs: get-tfstate-files
+    needs: get-customertfstate-files
     runs-on: ubuntu-latest
     strategy:
       matrix:

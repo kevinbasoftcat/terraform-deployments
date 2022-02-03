@@ -110,3 +110,8 @@ resource "azurerm_storage_account" "customer_tenant_storage_account" {
   account_replication_type = "LRS"
 }
 
+resource "azurerm_storage_container" "tfsatecontainer" {
+  name                  = "terraform-state"
+  storage_account_name  = azurerm_storage_account.customer_tenant_storage_account.name
+  container_access_type = "private"
+}

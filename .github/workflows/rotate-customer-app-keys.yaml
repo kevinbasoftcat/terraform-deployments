@@ -44,5 +44,6 @@ jobs:
       matrix:
         tfstate_file: ${{fromJson(needs.get-tfstate-files.outputs.matrix)}}
     
+    steps:
     - name: Display matrix
       run: echo ${{matrix.tfstate_file}}

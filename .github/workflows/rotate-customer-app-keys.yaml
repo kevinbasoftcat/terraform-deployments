@@ -34,6 +34,6 @@ jobs:
       run: |
         content='cat $GITHUB_WORKSPACE/tfstatefiles.json'
         echo "::set-output name=packageJson::$content"
-        echo ${{build-and-deploy.outputs.packageJson}}
+        echo ${{needs.build-and-deploy.outputs.packageJson}}
       # run: |
       #   echo "${{fromJson(steps.import_json.outputs.packageJson)}}"

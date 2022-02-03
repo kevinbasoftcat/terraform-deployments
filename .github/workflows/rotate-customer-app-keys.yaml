@@ -22,10 +22,20 @@ jobs:
       with:
         creds: ${{ env.AZURE_CREDENTIALS }}
 
-    - name: Azure CLI script
+    - name: Azure CLI collect terraform state files
       uses: azure/CLI@v1
       with:
         azcliversion: 2.30.0
         inlineScript: |
-          az storage blob list -c tfstate-customeronboarding --account-name sacustomeronboarding0000 --query "[].name" -o tsv > $GITHUB_WORKSPACE/tfstatefiles.txt
+          az storage blob list -c tfstate-customeronboarding --account-name sacustomeronboarding0000 --query "[].name" -o json > $GITHUB_WORKSPACE/tfstatefiles.json
+    
+    - name: Import terraform state files to output
+      id: import_json
+      run: |
+        content='cat $GITHUB_WORKSPACE/tfstatefiles.json'
+        echo "::set-output name=packageJson::$content"
+
+    - name: Display imported terraform state files
+      run: |
+        echo "${{fromJson(steps.import_json.outputs.packageJson)"
           

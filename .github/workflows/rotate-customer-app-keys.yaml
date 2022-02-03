@@ -36,7 +36,7 @@ jobs:
       run: |
         JSON=$(cat $GITHUB_WORKSPACE/tfstatefiles.json)
         echo "::set-output name=matrix::${JSON//'%'/'%25'}"
-        echo "${{ steps.set-matrix.outputs.matrix }}"
+        Echo "Test ${JSON}"
         
   set-matrix:
     needs: get-tfstate-files

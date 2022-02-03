@@ -27,5 +27,6 @@ jobs:
       with:
         azcliversion: 2.30.0
         inlineScript: |
-          az account show
-          az storage -h
+          $tfstatefiles = az storage blob list -c tfstate-customeronboarding --account-name sacustomeronboarding0000 --query "[].name" -o json | ConvertFrom-Json
+          $tfstatefiles | out-file $GITHUB_WORKSPACE/tfstatefiles.txt
+          

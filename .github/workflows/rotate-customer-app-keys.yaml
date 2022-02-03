@@ -40,5 +40,9 @@ jobs:
         echo "${{ steps.import_json.outputs.test }}"
         echo ${{ test}}
         echo ${{ content }}
+        echo ${test}
+        echo ${content}
+        $content
+        $test
       # run: |
       #   echo "${{fromJson(steps.import_json.outputs.packageJson)}}"

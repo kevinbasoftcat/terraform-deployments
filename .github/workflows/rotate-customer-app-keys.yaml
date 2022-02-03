@@ -75,8 +75,8 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
-      - name: Terraform Plan -var customer_tenant_id=${{ steps.customertenantdomain.outputs.customertenantid }}
-        run: terraform plan
+      - name: Terraform Plan 
+        run: terraform plan -var customer_tenant_id=${{ steps.customertenantdomain.outputs.customertenantid }}
         
       # - name: Terraform Apply
       #   run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve

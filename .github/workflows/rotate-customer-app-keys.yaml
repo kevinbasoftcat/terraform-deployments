@@ -32,6 +32,7 @@ jobs:
     - name: Import terraform state files to output
       id: import_json
       run: |
+        cat $GITHUB_WORKSPACE/tfstatefiles.json
         content='cat $GITHUB_WORKSPACE/tfstatefiles.json'
         echo "$content"
         echo "::set-output name=packageJson::$content"

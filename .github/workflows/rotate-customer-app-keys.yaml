@@ -43,7 +43,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tfstate_file: ${{fromJson(needs.get-tfstate-files.outputs.matrix)}}
+        # tfstate_file: ${{fromJson(needs.get-tfstate-files.outputs.matrix)}}
+        tfstate_file: [test01.onmicrosoft.com,test02.onmicrosoft.com]
     
     steps:
     - name: Display matrix

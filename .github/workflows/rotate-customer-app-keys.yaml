@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        tfstate_file: ${{fromJson(needs.get-tfstate-files.outputs.matrix)}}
+        tfstate_file: ${{fromJson(needs.get-customertfstate-files.outputs.matrix)}}
     defaults:
       run:
         working-directory: ./Azure-Managed-Service-Customer-Onboarding

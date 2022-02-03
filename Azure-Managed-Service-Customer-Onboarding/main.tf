@@ -51,7 +51,12 @@ resource "azurerm_key_vault" "customer_tenant_key_vault" {
     secret_permissions = [
       "Get",
       "List",
-      "Set"
+      "Set",
+      "Delete",
+      "Recover",
+      "Backup",
+      "Restore",
+      "Purge"
     ]
   }
 }

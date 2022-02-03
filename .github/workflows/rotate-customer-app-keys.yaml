@@ -37,5 +37,5 @@ jobs:
 
     - name: Display imported terraform state files
       run: |
-        echo "${{fromJson(steps.import_json.outputs.packageJson)"
+        echo "${{fromJson(steps.import_json.outputs.packageJson)}}"
           

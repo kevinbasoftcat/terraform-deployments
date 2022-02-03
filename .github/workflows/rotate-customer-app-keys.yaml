@@ -13,8 +13,10 @@ env:
     }
   
 jobs: 
-  build-and-deploy:
+  get-tfstate-files:
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
 
     - name: Azure Login
@@ -30,17 +32,17 @@ jobs:
           az storage blob list -c tfstate-customeronboarding --account-name sacustomeronboarding0000 --query "[].name" -o json > $GITHUB_WORKSPACE/tfstatefiles.json
     
     - name: Import terraform state files to output
-      id: import_json
+      id: set-matrix
       run: |
-        content='cat $GITHUB_WORKSPACE/tfstatefiles.json'
-        test="Test"
-        echo "::set-output name=packageJson::$content"
-        echo "::set-output name=test::$test"
-        echo "${{ steps.import_json.outputs.packageJson }}"
-        echo "${{ steps.import_json.outputs.test }}"
-        echo ${test}
-        echo ${content}
-        $test
-        $content
-      # run: |
-      #   echo "${{fromJson(steps.import_json.outputs.packageJson)}}"
+        JSON=$(cat $GITHUB_WORKSPACE/tfstatefiles.json)
+        echo "::set-output name=matrix::${JSON}"
+        
+  set-matrix:
+    runs-on: unbuntu-latest
+    needs: get-tfstate-files
+    strategy:
+      matrix:
+        tfstate_file: ${{fromJson(needs.get-tfstate-files.outputs.matrix)}}
+    
+    - name: Display matrix
+      run: echo ${{matrix.tfstate_file}}

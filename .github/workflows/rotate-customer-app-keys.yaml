@@ -34,8 +34,6 @@ jobs:
       run: |
         content='cat $GITHUB_WORKSPACE/tfstatefiles.json'
         echo "::set-output name=packageJson::$content"
-
-    - name: Display imported terraform state files
-      run: |
-        echo "${{fromJson(steps.import_json.outputs.packageJson)}}"
-          
+        echo $packageJson
+      # run: |
+      #   echo "${{fromJson(steps.import_json.outputs.packageJson)}}"

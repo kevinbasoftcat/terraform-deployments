@@ -38,5 +38,7 @@ jobs:
         echo "::set-output name=test::$test"
         echo "${{ steps.import_json.outputs.packageJson }}"
         echo "${{ steps.import_json.outputs.test }}"
+        echo ${test}
+        echo ${content}
       # run: |
       #   echo "${{fromJson(steps.import_json.outputs.packageJson)}}"

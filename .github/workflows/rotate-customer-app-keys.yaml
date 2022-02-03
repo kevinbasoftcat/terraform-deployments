@@ -5,12 +5,12 @@ on:
 
 env:
   AZURE_CREDENTIALS: >
-  {
-    "clientId": "${{ secrets.ARM_CLIENT_ID }}",
-    "clientSecret": "${{ secrets.ARM_CLIENT_SECRET }}",
-    "subscriptionId": "${{ secrets.ARM_SUBSCRIPTION_ID }}",
-    "tenantId": "${{ secrets.ARM_TENANT_ID }}",
-  }
+    {
+      "clientId": "${{ secrets.ARM_CLIENT_ID }}",
+      "clientSecret": "${{ secrets.ARM_CLIENT_SECRET }}",
+      "subscriptionId": "${{ secrets.ARM_SUBSCRIPTION_ID }}",
+      "tenantId": "${{ secrets.ARM_TENANT_ID }}"
+    }
   
 jobs: 
   build-and-deploy:

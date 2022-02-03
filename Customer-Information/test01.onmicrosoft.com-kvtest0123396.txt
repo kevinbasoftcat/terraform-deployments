@@ -1,3 +1,0 @@
-Customer Repo Information - Last Updated 2022-02-02 11:39:19
-Customer Tenant Domain: test01.onmicrosoft.com
-Customer KeyVault Name: kvtest0123396

@@ -39,7 +39,6 @@ jobs:
         JSON="${JSON//$'\n'/'%0A'}"
         JSON="${JSON//$'\r'/'%0D'}"
         echo "::set-output name=matrix::${JSON}"
-        echo "::set-output name=customertenantid::${JSON} | cut -d '.' -f 1,2,3"
         
   re-run-customer-deployments:
     needs: get-customertfstate-files
@@ -58,6 +57,10 @@ jobs:
       ARM_TENANT_ID: ${{secrets.ARM_TENANT_ID}}
 
     steps:
+      - name: Get customer tenant domain from tfstate file
+        id: customertenantdomain
+        run: echo "::set-output name=customertenantid::{{ matrix.tfstate_file }} | cut -d '.' -f 1,2,3"
+
       - name: Clone Repo
         uses: actions/checkout@v2
 
@@ -72,7 +75,7 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
-      - name: Terraform Plan -var customer_tenant_id=${{ needs.get-customertfstate-files.outputs.customertenantid }}
+      - name: Terraform Plan -var customer_tenant_id=${{ steps.customertenantdomain.outputs.customertenantid }}
         run: terraform plan
         
       # - name: Terraform Apply

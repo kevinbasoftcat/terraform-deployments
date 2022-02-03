@@ -43,6 +43,8 @@ jobs:
   re-run-customer-deployments:
     needs: get-customertfstate-files
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.customertenantdomain.outputs.customertenantid }}
     strategy:
       matrix:
         tfstate_file: ${{fromJson(needs.get-customertfstate-files.outputs.matrix)}}

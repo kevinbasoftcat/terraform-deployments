@@ -90,6 +90,6 @@ jobs:
       #   run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve
 
       - name: Run GitHub  CLI
-        run: gh repo list softcatms --json name --jq '.[]|select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}"))'
+        run: gh repo list kevinbasoftcat --json name --jq '.[]|select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}"))'
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

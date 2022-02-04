@@ -1,4 +1,4 @@
-name: Rotate customer app registration keys
+name: Monthly Job - Check customer secret rotation
 
 on: 
   workflow_dispatch:

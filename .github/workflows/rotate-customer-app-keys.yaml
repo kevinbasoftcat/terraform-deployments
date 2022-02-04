@@ -61,7 +61,7 @@ jobs:
         uses: actions/checkout@v2
       
       - name: Set customer tenant domain as env
-        run: echo "CUSTOMERTENANTDOMAIN=$(echo {{ matrix.tfstate_file }} | cut -d '.' -f 1,2,3)" >> $GITHUB_ENV
+        run: echo "CUSTOMERTENANTDOMAIN=$(echo ${{ matrix.tfstate_file }} | cut -d '.' -f 1,2,3)" >> $GITHUB_ENV
 
 
       - name: Setup Terraform

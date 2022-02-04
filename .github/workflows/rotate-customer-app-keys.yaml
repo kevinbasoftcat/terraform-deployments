@@ -83,11 +83,13 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
       
-      - name: Test Output
-        run: echo "${{ steps.terraformoutput.outputs.customertenantid }}"
-
       # - name: Terraform Plan 
       #   run: terraform plan -var customer_tenant_id=${{ env.CUSTOMERTENANTDOMAIN }}
         
       # - name: Terraform Apply
       #   run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve
+
+      - name: Run GitHub  CLI
+        run: gh repo list softcatms --json name --jq '.[]|select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}"))'
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

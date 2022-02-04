@@ -43,6 +43,8 @@ jobs:
   re-run-customer-deployments:
     needs: get-customertfstate-files
     runs-on: ubuntu-latest
+    outputs:
+      customertenantid: ${{ steps.terraformoutput.outputs.customertenantid}}
     strategy:
       matrix:
         tfstate_file: ${{fromJson(needs.get-customertfstate-files.outputs.matrix)}}
@@ -73,10 +75,16 @@ jobs:
         run: terraform init -backend-config=storage_account_name=${{secrets.STORAGE_ACCOUNT}} -backend-config=key=${{ matrix.tfstate_file }}
       
       - name: Terraform Output
-        run: terraform output application_id
+        id: terraformoutput
+        run: |
+          customertenantid=$(terraform output application_id)
+          echo "::set-output name=customertenantid::$customertenantid"
       
       - name: Terraform Validate
         run: terraform validate
+      
+      - name: Test Output
+        run: echo "${{ steps.terraformoutput.outputs.customertenantid }}"
 
       # - name: Terraform Plan 
       #   run: terraform plan -var customer_tenant_id=${{ env.CUSTOMERTENANTDOMAIN }}

@@ -43,8 +43,6 @@ jobs:
   re-run-customer-deployments:
     needs: get-customertfstate-files
     runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.customertenantdomain.outputs.customertenantid }}
     strategy:
       matrix:
         tfstate_file: ${{fromJson(needs.get-customertfstate-files.outputs.matrix)}}
@@ -59,12 +57,11 @@ jobs:
       ARM_TENANT_ID: ${{secrets.ARM_TENANT_ID}}
 
     steps:
-      - name: Get customer tenant domain from tfstate file
-        id: customertenantdomain
-        run: echo "::set-output name=customertenantid::{{ matrix.tfstate_file }} | cut -d '.' -f 1,2,3"
-
       - name: Clone Repo
         uses: actions/checkout@v2
+      
+      - name: Set customer tenant domain as env
+        run: echo "CUSTOMERTENANTDOMAIN=$(echo {{ matrix.tfstate_file }} | cut -d '.' -f 1,2,3)" >> $GITHUB_ENV
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
@@ -78,7 +75,7 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan 
-        run: terraform plan -var customer_tenant_id=${{ steps.customertenantdomain.outputs.customertenantid }}
+        run: terraform plan -var customer_tenant_id=${{ env.GITHUB_CUSTOMERTENANTDOMAIN }}
         
       # - name: Terraform Apply
       #   run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve

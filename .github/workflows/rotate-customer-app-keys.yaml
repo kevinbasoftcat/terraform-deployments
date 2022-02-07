@@ -47,6 +47,7 @@ jobs:
       customer_tenant_id: ${{ steps.terraformoutput.outputs.customer_tenant_id }}
       planExitcode: ${{ steps.plan.outputs.exitcode }}
     strategy:
+      fail-fast: false
       matrix:
         tfstate_file: ${{fromJson(needs.get-customertfstate-files.outputs.matrix)}}
     defaults:

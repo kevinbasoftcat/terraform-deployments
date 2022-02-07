@@ -102,6 +102,9 @@ jobs:
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Display exit code
+        run: echo "${{ steps.plan.outputs.exitcode }}"
+        
       - name: Update repo secret if terraform changes required
         if: needs.plan.outputs.planExitcode == 2
         run: echo "Repo will be updated"
@@ -109,3 +112,4 @@ jobs:
       - name: No updates required
         if: needs.plan.outputs.planExitcode == 0
         run: echo "No changes required"
+

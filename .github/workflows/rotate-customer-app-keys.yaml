@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       customertenantid: ${{ steps.terraformoutput.outputs.customertenantid}}
-      terraformexitcode: ${{ steps.plan.outputs.terraformexitcode }}
+      planExitcode: ${{ steps.plan.outputs.exitcode }}
     strategy:
       matrix:
         tfstate_file: ${{fromJson(needs.get-customertfstate-files.outputs.matrix)}}
@@ -88,6 +88,10 @@ jobs:
         id: plan 
         run: terraform plan -detailed-exitcode -var customer_tenant_id=${{ steps.terraformoutput.outputs.customertenantid }}
         continue-on-error: true
+      
+      - name: Check for Plan failure
+        if: steps.plan.outputs.exitcode == 1
+        run: exit 1
         
       # - name: Terraform Apply
       #   run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve 
@@ -98,9 +102,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update repo secret if terraform changes required
-        if: needs.plan.outputs.terraformexitcode == 2
+        needs: plan
+        if: needs.plan.outputs.planExitcode == 2
         run: echo "Repo will be updated"
-
-      - name: No update to repo as no chnages required
-        if: needs.plan.outputs.terraformexitcode == 1
-        run: echo "Repo will NOT be updated"

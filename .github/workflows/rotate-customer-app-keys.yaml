@@ -86,7 +86,6 @@ jobs:
         run: terraform validate
       
       - name: Terraform Plan
-        needs: terraformoutput
         id: plan 
         run: terraform plan -var customer_tenant_id=${{steps.terraformoutput.outputs.customer_tenant_id}} -detailed-exitcode
         continue-on-error: true

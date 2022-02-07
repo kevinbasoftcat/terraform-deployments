@@ -78,7 +78,7 @@ jobs:
       - name: Terraform Output
         id: terraformoutput
         run: |
-          customertenantid=$(terraform output application_id)
+          customertenantid=$(terraform output customer_tenant_id)
           echo "::set-output name=customertenantid::$customertenantid"
       
       - name: Terraform Validate

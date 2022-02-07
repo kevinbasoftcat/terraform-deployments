@@ -71,7 +71,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
         with:
-          terraform_wrapper: false
+          # terraform_wrapper: false
 
       - name: Terraform Init
         run: terraform init -backend-config=storage_account_name=${{secrets.STORAGE_ACCOUNT}} -backend-config=key=${{ matrix.tfstate_file }}
@@ -104,7 +104,7 @@ jobs:
 
       - name: Display exit code
         run: echo "${{ steps.plan.outputs.exitcode }}"
-        
+
       - name: Update repo secret if terraform changes required
         if: needs.plan.outputs.planExitcode == 2
         run: echo "Repo will be updated"

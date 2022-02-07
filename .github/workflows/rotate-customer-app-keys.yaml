@@ -87,7 +87,7 @@ jobs:
       
       - name: Terraform Plan
         id: plan 
-        run: terraform plan -var customer_tenant_id=test01.onmicrosoft.com -detailed-exitcode
+        run: terraform plan -var customer_tenant_id=${{secrets.STORAGE_ACCOUNT}} -detailed-exitcode
         continue-on-error: true
       
       - name: Check for Plan failure

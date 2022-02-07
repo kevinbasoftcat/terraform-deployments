@@ -23,3 +23,8 @@ output "keyvault_name" {
     description = "Name of the keyvault created for the customer"
     value = azurerm_key_vault.customer_tenant_key_vault.name
 }
+
+output "customer_tenant_id" {
+    description = "Inputted customer tenant ID"
+    value       = var.customer_tenant_id
+}

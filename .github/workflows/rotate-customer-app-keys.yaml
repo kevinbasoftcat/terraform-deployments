@@ -44,7 +44,7 @@ jobs:
     needs: get-customertfstate-files
     runs-on: ubuntu-latest
     outputs:
-      customertenantid: ${{ steps.terraformoutput.outputs.customertenantid}}
+      customer_tenant_id: ${{ steps.terraformoutput.outputs.customer_tenant_id }}
       planExitcode: ${{ steps.plan.outputs.exitcode }}
     strategy:
       matrix:

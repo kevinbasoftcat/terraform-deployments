@@ -28,3 +28,8 @@ output "customer_tenant_id" {
     description = "Inputted customer tenant ID"
     value       = var.customer_tenant_id
 }
+
+output "exit_code" {
+    description = "Exit Code"
+    value       = "echo $?"
+}

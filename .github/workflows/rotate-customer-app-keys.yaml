@@ -105,3 +105,7 @@ jobs:
       - name: Update repo secret if terraform changes required
         if: needs.plan.outputs.planExitcode == 2
         run: echo "Repo will be updated"
+      
+      - name: No updates required
+        if: needs.plan.outputs.planExitcode == 0
+        run: echo "No changes required"

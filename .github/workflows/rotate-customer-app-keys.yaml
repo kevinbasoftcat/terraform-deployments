@@ -78,15 +78,15 @@ jobs:
       - name: Terraform Output
         id: terraformoutput
         run: |
-          customertenantid=$(terraform output customer_tenant_id)
-          echo "::set-output name=customertenantid::$customertenantid"
+          customer_tenant_id=$(terraform output customer_tenant_id)
+          echo "::set-output name=customer_tenant_id::$customer_tenant_id"
       
       - name: Terraform Validate
         run: terraform validate
       
       - name: Terraform Plan
         id: plan 
-        run: terraform plan -detailed-exitcode -var customer_tenant_id=${{ steps.terraformoutput.outputs.customertenantid }}
+        run: terraform plan -detailed-exitcode -var customer_tenant_id=${{ steps.terraformoutput.outputs.customer_tenant_id }}
         continue-on-error: true
       
       - name: Check for Plan failure

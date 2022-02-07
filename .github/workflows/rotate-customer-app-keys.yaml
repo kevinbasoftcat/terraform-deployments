@@ -87,7 +87,7 @@ jobs:
       
       - name: Terraform Plan
         id: plan 
-        run: terraform plan -detailed-exitcode -var customer_tenant_id=${{ steps.terraformoutput.outputs.customer_tenant_id }}
+        run: terraform plan -detailed-exitcode -input=false -var customer_tenant_id=${{ steps.terraformoutput.outputs.customer_tenant_id }}
         continue-on-error: true
       
       - name: Check for Plan failure

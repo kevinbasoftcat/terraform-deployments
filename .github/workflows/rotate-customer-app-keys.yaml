@@ -45,6 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       customertenantid: ${{ steps.terraformoutput.outputs.customertenantid}}
+      terraformexitcode: ${{ steps.plan.outputs.terraformexitcode }}
     strategy:
       matrix:
         tfstate_file: ${{fromJson(needs.get-customertfstate-files.outputs.matrix)}}
@@ -83,13 +84,20 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
       
-      # - name: Terraform Plan 
-      #   run: terraform plan -var customer_tenant_id=${{ steps.terraformoutput.outputs.customertenantid }}
+      - name: Terraform Plan
+        id: plan 
+        run: terraform plan -detailed-exitcode -var customer_tenant_id=${{ steps.terraformoutput.outputs.customertenantid }}
         
       # - name: Terraform Apply
       #   run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve
+
+      - name: 
 
       - name: Run GitHub  CLI
         run: gh repo list kevinbasoftcat --json name --jq '.[]|select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}"))'
         env: 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update repo secret if terraform changes required
+        if: needs.plan.outputs.terraformexitcode == 2
+        run: echo "Repo will be updated"

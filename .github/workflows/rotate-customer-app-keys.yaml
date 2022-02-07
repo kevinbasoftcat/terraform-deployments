@@ -103,7 +103,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Display exit code
-        run: echo $?
+        run: echo "${{ steps.plan.outputs.exitcode }}"
 
       - name: Update repo secret if terraform changes required
         if: needs.plan.outputs.planExitcode == 2

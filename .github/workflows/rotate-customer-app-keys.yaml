@@ -102,4 +102,5 @@ jobs:
         run: echo "Repo will be updated"
 
       - name: No update to repo as no chnages required
-        if: needs.plan.outputs.terraformexitcode == 1  
+        if: needs.plan.outputs.terraformexitcode == 1
+        run: echo "Repo will NOT be updated"

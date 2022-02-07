@@ -102,6 +102,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Update repo secret if terraform changes required
-        needs: plan
         if: needs.plan.outputs.planExitcode == 2
         run: echo "Repo will be updated"

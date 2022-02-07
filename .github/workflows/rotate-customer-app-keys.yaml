@@ -70,8 +70,8 @@ jobs:
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
-        # with:
-        #   terraform_wrapper: false
+        with:
+          terraform_wrapper: false
 
       - name: Terraform Init
         run: terraform init -backend-config=storage_account_name=${{secrets.STORAGE_ACCOUNT}} -backend-config=key=${{ matrix.tfstate_file }}

@@ -98,7 +98,7 @@ jobs:
         
       - name: Terraform Apply
         if: steps.plan.outputs.exitcode == 2
-        run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve 
+        run: terraform apply -var customer_tenant_id=${{ steps.terraformoutput.outputs.customer_tenant_id }} --auto-approve 
 
       # - name: Run GitHub  CLI
       #   run: gh repo list kevinbasoftcat --json name --jq '.[]|select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}"))'

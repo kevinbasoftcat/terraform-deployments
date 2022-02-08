@@ -68,10 +68,10 @@ jobs:
         run: echo "CUSTOMERTENANTDOMAIN=$(echo ${{ matrix.tfstate_file }} | cut -d '.' -f 1)" >> $GITHUB_ENV
 
 
-      - name: Setup Terraform
+      - name: Setup Terraform - Wrapper False
         uses: hashicorp/setup-terraform@v1
-        # with:
-        #   terraform_wrapper: false
+        with:
+          terraform_wrapper: false
 
       - name: Terraform Init
         run: terraform init -backend-config=storage_account_name=${{secrets.STORAGE_ACCOUNT}} -backend-config=key=${{ matrix.tfstate_file }}
@@ -85,9 +85,12 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
       
+      - name: Setup Terraform - Wrapper True
+        uses: hashicorp/setup-terraform@v1
+         
       - name: Terraform Plan
         id: plan 
-        run: terraform plan -var customer_tenant_id=${{env.CUSTOMERTENANTDOMAIN}} -detailed-exitcode
+        run: terraform plan -var customer_tenant_id=${{ steps.terraformoutput.outputs.customer_tenant_id }} -detailed-exitcode
         continue-on-error: true
       
       - name: Check for Plan failure
@@ -97,13 +100,13 @@ jobs:
       # - name: Terraform Apply
       #   run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve 
 
-      - name: Run GitHub  CLI
-        run: gh repo list kevinbasoftcat --json name --jq '.[]|select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}"))'
-        env: 
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: Run GitHub  CLI
+      #   run: gh repo list kevinbasoftcat --json name --jq '.[]|select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}"))'
+      #   env: 
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Display exit code
-        run: echo "${{ steps.plan.outputs.exitcode }}"
+      # - name: Display exit code
+      #   run: echo "${{ steps.plan.outputs.exitcode }}"
 
       - name: Update repo secret if terraform changes required
         if: steps.plan.outputs.exitcode == 2

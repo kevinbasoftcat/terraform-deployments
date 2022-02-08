@@ -45,7 +45,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       customer_tenant_id: ${{ steps.terraformoutput.outputs.customer_tenant_id }}
-      # planExitcode: ${{ steps.plan.outputs.exitcode }}
     strategy:
       fail-fast: false
       matrix:
@@ -97,8 +96,9 @@ jobs:
         if: steps.plan.outputs.exitcode == 1
         run: exit 1
         
-      # - name: Terraform Apply
-      #   run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve 
+      - name: Terraform Apply
+        if: steps.plan.outputs.exitcode == 2
+        run: terraform apply -var customer_tenant_id=${{ github.event.inputs.customertenantid }} --auto-approve 
 
       # - name: Run GitHub  CLI
       #   run: gh repo list kevinbasoftcat --json name --jq '.[]|select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}"))'
@@ -107,12 +107,4 @@ jobs:
 
       # - name: Display exit code
       #   run: echo "${{ steps.plan.outputs.exitcode }}"
-
-      - name: Update repo secret if terraform changes required
-        if: steps.plan.outputs.exitcode == 2
-        run: echo "Repo will be updated"
-      
-      - name: No updates required
-        if: steps.plan.outputs.exitcode == 0
-        run: echo "No changes required"
 

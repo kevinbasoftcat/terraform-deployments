@@ -45,6 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       customer_tenant_id: ${{ steps.terraformoutput.outputs.customer_tenant_id }}
+      tenant_repos: ${{ steps.reposearch.outputs.tenant_repos }}
     strategy:
       fail-fast: false
       matrix:

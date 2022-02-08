@@ -104,7 +104,7 @@ jobs:
       - name: Search GitHub repos specific to this tenant
         id: reposearch
         run: | 
-          # tenant_repos="$(gh repo list kevinbasoftcat --json name --jq '.[] | select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}")) | .[]')"   
+          # tenant_repos="gh repo list kevinbasoftcat --json name --jq '.[] | select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}")) | .[]'   
           # echo "::set-output name=tenant_repos::$tenant_repos"
         env: 
           GITHUB_TOKEN: ${{ secrets.PAT }}

@@ -106,7 +106,7 @@ jobs:
           tenant_repos=gh repo list kevinbasoftcat --json name --jq '.[]|select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}"))'
           echo "::set-output name=tenant_repos::$tenant_repos"
         env: 
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Display exit code
         run: echo "${{ steps.reposearch.outputs.tenant_repos }}"

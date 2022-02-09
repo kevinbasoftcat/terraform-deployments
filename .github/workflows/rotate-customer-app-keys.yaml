@@ -113,7 +113,7 @@ jobs:
           echo "::set-output name=application_key_secret::$application_key_secret"
 
       - name: Find GitHub repos specific to this tenant
-        if: steps.plan.outputs.exitcode == 2
+        # if: steps.plan.outputs.exitcode == 2
         id: reposearch
         run: | 
           tenant_repos="$(gh repo list kevinbasoftcat --json name --jq '.[] | select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}")) | .[]' > $GITHUB_WORKSPACE/repo_output.json)"
@@ -122,13 +122,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
       
       - name: Format repos found into correct JSON
-        if: steps.plan.outputs.exitcode == 2
+        # if: steps.plan.outputs.exitcode == 2
         id: repoformat
         run: |
           echo "::set-output name=repo_format=$(cat $GITHUB_WORKSPACE/repo_output.json | jq -R -s -c 'split("\n")[:-1]')""
       
       - name: Display output
-        if: steps.plan.outputs.exitcode == 2
+        # if: steps.plan.outputs.exitcode == 2
         run: echo "${{ steps.repoformat.outputs.repo_format }}"
 
   update-repo-secret:

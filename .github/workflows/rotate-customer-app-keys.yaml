@@ -49,6 +49,7 @@ jobs:
       customer_tenant_id: ${{ steps.terraformoutput.outputs.customer_tenant_id }}
       tenant_repos: ${{ steps.reposearch.outputs.tenant_repos }}
       application_key_secret: ${{ steps.appsecret.outputs.application_key_secret }}
+      repo_format: ${{ steps.repoformat.outputs.repo_format }}
 
     strategy:
       fail-fast: false

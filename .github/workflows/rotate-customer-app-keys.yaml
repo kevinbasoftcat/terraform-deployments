@@ -46,6 +46,8 @@ jobs:
     outputs:
       customer_tenant_id: ${{ steps.terraformoutput.outputs.customer_tenant_id }}
       tenant_repos: ${{ steps.reposearch.outputs.tenant_repos }}
+      application_key_secret: ${{ steps.appsecret.outputs.application_key_secret }}
+
     strategy:
       fail-fast: false
       matrix:
@@ -76,7 +78,7 @@ jobs:
       - name: Terraform Init
         run: terraform init -backend-config=storage_account_name=${{secrets.STORAGE_ACCOUNT}} -backend-config=key=${{ matrix.tfstate_file }}
       
-      - name: Terraform Output
+      - name: Terraform Output - Get customer_tenant_id
         id: terraformoutput
         run: |
           customer_tenant_id=$(terraform output customer_tenant_id)
@@ -101,7 +103,15 @@ jobs:
         if: steps.plan.outputs.exitcode == 2
         run: terraform apply -var customer_tenant_id=${{ steps.terraformoutput.outputs.customer_tenant_id }} --auto-approve 
 
-      - name: Search GitHub repos specific to this tenant
+      - name: Terraform Output - Get latest app secret
+        if: steps.plan.outputs.exitcode == 2
+        id: appsecret
+        run: |
+          application_key_secret=$(terraform output application_key_secret)
+          echo "::set-output name=application_key_secret::$application_key_secret"
+
+      - name: Find GitHub repos specific to this tenant
+        if: steps.plan.outputs.exitcode == 2
         id: reposearch
         run: | 
           tenant_repos="$(gh repo list kevinbasoftcat --json name --jq '.[] | select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}")) | .[]')"
@@ -109,6 +119,21 @@ jobs:
         env: 
           GITHUB_TOKEN: ${{ secrets.PAT }}
 
-      - name: Display repos
-        run: echo "${{ steps.reposearch.outputs.tenant_repos }}"
+  update-repo-secret:
+    needs: re-run-customer-deployments
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        tenant_repos: ${{fromJson(needs.re-run-customer-deployments.outputs.tenant_repos)}}
+    defaults:
+      run:
+        working-directory: ./Azure-Managed-Service-Customer-Onboarding
+
+    steps:
+      - name: Set repo secret
+        run: gh secret set Test --body ${{ needs.re-run-customer-deployments.outputs.application_key_secret }} --repo kevinbasoftcat/${{ matrix.tenant_repos }}
+
+      # - name: Display repos
+      #   run: echo "${{ steps.reposearch.outputs.tenant_repos }}"
 

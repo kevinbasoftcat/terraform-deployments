@@ -140,9 +140,6 @@ jobs:
       fail-fast: false
       matrix:
         tenant_repos: ${{fromJson(needs.re-run-customer-deployments.outputs.repo_format)}}
-    defaults:
-      run:
-        working-directory: ./Azure-Managed-Service-Customer-Onboarding
 
     steps:
       - name: Set repo secret

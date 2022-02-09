@@ -39,6 +39,8 @@ jobs:
         JSON="${JSON//$'\n'/'%0A'}"
         JSON="${JSON//$'\r'/'%0D'}"
         echo "::set-output name=matrix::${JSON}"
+    - name:
+      run: echo "${{ steps.set-matrix.outputs.matrix }}"
         
   re-run-customer-deployments:
     needs: get-customertfstate-files

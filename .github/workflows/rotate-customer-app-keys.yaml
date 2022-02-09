@@ -118,6 +118,10 @@ jobs:
           echo "::set-output name=tenant_repos::$tenant_repos"
         env: 
           GITHUB_TOKEN: ${{ secrets.PAT }}
+      
+      - name: Display output
+        if: steps.plan.outputs.exitcode == 2
+        run: echo "${{ steps.reposearch.outputs.tenant_repos }}"
 
   update-repo-secret:
     needs: re-run-customer-deployments

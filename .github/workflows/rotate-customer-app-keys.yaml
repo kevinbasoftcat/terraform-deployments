@@ -126,7 +126,8 @@ jobs:
         # if: steps.plan.outputs.exitcode == 2
         id: repoformat
         run: |
-          echo "::set-output name=repo_format=$(cat $GITHUB_WORKSPACE/repo_output.json | jq -R -s -c 'split("\n")[:-1]')"
+          repo_format=$(cat $GITHUB_WORKSPACE/repo_output.json | jq -R -s -c 'split("\n")[:-1]')"
+          echo "::set-output name=repo_format::$repo_format"
       
       - name: Display output
         # if: steps.plan.outputs.exitcode == 2

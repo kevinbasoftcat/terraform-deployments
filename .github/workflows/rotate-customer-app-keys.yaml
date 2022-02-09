@@ -116,14 +116,20 @@ jobs:
         if: steps.plan.outputs.exitcode == 2
         id: reposearch
         run: | 
-          tenant_repos="$(gh repo list kevinbasoftcat --json name --jq '.[] | select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}")) | .[]')"
+          tenant_repos="$(gh repo list kevinbasoftcat --json name --jq '.[] | select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}")) | .[]' > $GITHUB_WORKSPACE/repo_output.json)"
           echo "::set-output name=tenant_repos::$tenant_repos"
         env: 
           GITHUB_TOKEN: ${{ secrets.PAT }}
       
+      - name: Format repos found into correct JSON
+        if: steps.plan.outputs.exitcode == 2
+        id: repoformat
+        run: |
+          echo "::set-output name=repo_format=$(cat $GITHUB_WORKSPACE/repo_output.json | jq -R -s -c 'split("\n")[:-1]')
+      
       - name: Display output
         if: steps.plan.outputs.exitcode == 2
-        run: echo "${{ steps.reposearch.outputs.tenant_repos }}"
+        run: echo "${{ steps.repoformat.outputs.repo_format }}"
 
   update-repo-secret:
     needs: re-run-customer-deployments
@@ -131,7 +137,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        tenant_repos: ${{fromJson(needs.re-run-customer-deployments.outputs.tenant_repos)}}
+        tenant_repos: ${{fromJson(needs.re-run-customer-deployments.outputs.repo_format)}}
     defaults:
       run:
         working-directory: ./Azure-Managed-Service-Customer-Onboarding

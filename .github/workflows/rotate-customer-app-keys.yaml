@@ -118,8 +118,8 @@ jobs:
           application_key_secret=$(terraform output application_key_secret)
           echo "::set-output name=application_key_secret::$application_key_secret"
       
-      - name: Display output
-        run: echo "${{ steps.appsecret.outputs.application_key_secret }}"
+      # - name: Display output
+      #   run: echo "${{ steps.appsecret.outputs.application_key_secret }}"
 
       - name: Find GitHub repos specific to this tenant
         # if: steps.plan.outputs.exitcode == 2
@@ -137,9 +137,9 @@ jobs:
           repo_format="$(cat $GITHUB_WORKSPACE/repo_output.json | jq -R -s -c 'split("\n")[:-1]')"
           echo "::set-output name=repo_format::$repo_format"
       
-      - name: Display output
-        # if: steps.plan.outputs.exitcode == 2
-        run: echo "${{ steps.repoformat.outputs.repo_format }}"
+      # - name: Display output
+      #   # if: steps.plan.outputs.exitcode == 2
+      #   run: echo "${{ steps.repoformat.outputs.repo_format }}"
 
   update-repo-secret:
     needs: re-run-customer-deployments

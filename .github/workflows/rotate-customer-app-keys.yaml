@@ -143,6 +143,7 @@ jobs:
 
   update-repo-secret:
     needs: re-run-customer-deployments
+    if: steps.plan.outputs.exitcode == 2
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false

@@ -118,8 +118,8 @@ jobs:
           application_key_secret=$(terraform output application_key_secret)
           echo "::set-output name=application_key_secret::$application_key_secret"
       
-      # - name: Display output
-      #   run: echo "${{ steps.appsecret.outputs.application_key_secret }}"
+      - name: Display output
+        run: echo "${{ steps.appsecret.outputs.application_key_secret }}"
 
       - name: Find GitHub repos specific to this tenant
         # if: steps.plan.outputs.exitcode == 2

@@ -106,6 +106,11 @@ jobs:
         if: steps.plan.outputs.exitcode == 2
         run: terraform apply -var customer_tenant_id=${{ steps.terraformoutput.outputs.customer_tenant_id }} --auto-approve 
 
+      - name: Setup Terraform - Wrapper False
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_wrapper: false
+      
       - name: Terraform Output - Get latest app secret
         # if: steps.plan.outputs.exitcode == 2
         id: appsecret

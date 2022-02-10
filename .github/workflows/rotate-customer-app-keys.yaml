@@ -112,7 +112,7 @@ jobs:
           terraform_wrapper: false
       
       - name: Terraform Output - Get latest app secret
-        # if: steps.plan.outputs.exitcode == 2
+        if: steps.plan.outputs.exitcode == 2
         id: appsecret
         run: |
           application_key_secret=$(terraform output application_key_secret)
@@ -122,7 +122,7 @@ jobs:
       #   run: echo "${{ steps.appsecret.outputs.application_key_secret }}"
 
       - name: Find GitHub repos specific to this tenant
-        # if: steps.plan.outputs.exitcode == 2
+        if: steps.plan.outputs.exitcode == 2
         id: reposearch
         run: | 
           tenant_repos="$(gh repo list kevinbasoftcat --json name --jq '.[] | select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}")) | .[]' > $GITHUB_WORKSPACE/repo_output.json)"
@@ -131,7 +131,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PAT }}
       
       - name: Format repos found into correct JSON
-        # if: steps.plan.outputs.exitcode == 2
+        if: steps.plan.outputs.exitcode == 2
         id: repoformat
         run: |
           repo_format="$(cat $GITHUB_WORKSPACE/repo_output.json | jq -R -s -c 'split("\n")[:-1]')"

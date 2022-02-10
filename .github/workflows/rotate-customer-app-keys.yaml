@@ -151,7 +151,8 @@ jobs:
     steps:
       - name: Set repo secret
         run: gh secret set Test --body ${{ needs.re-run-customer-deployments.outputs.application_key_secret }} --repo kevinbasoftcat/${{ matrix.tenant_repos }}
-
+        env: 
+          GITHUB_TOKEN: ${{ secrets.PAT }}
       # - name: Display repos
       #   run: echo "${{ steps.reposearch.outputs.tenant_repos }}"
 

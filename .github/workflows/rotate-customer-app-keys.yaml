@@ -117,6 +117,9 @@ jobs:
         run: |
           application_key_secret=$(terraform output application_key_secret)
           echo "::set-output name=application_key_secret::$application_key_secret"
+      
+      - name: Display output
+        run: echo "${{ steps.appsecret.outputs.application_key_secret }}"
 
       - name: Find GitHub repos specific to this tenant
         # if: steps.plan.outputs.exitcode == 2
@@ -148,6 +151,7 @@ jobs:
     defaults:
       run:
         working-directory: ./
+    
     steps:
       - name: Set repo secret
         run: gh secret set Test --body ${{ needs.re-run-customer-deployments.outputs.application_key_secret }} --repo kevinbasoftcat/${{ matrix.tenant_repos }}

@@ -136,22 +136,26 @@ jobs:
         run: |
           repo_format="$(cat $GITHUB_WORKSPACE/repo_output.json | jq -R -s -c 'split("\n")[:-1]')"
           echo "::set-output name=repo_format::$repo_format"
+
+      - name: Display each repo
+        run: |
+          for repo in $repo_format; do echo "$repo"; done
       
       # - name: Display output
       #   # if: steps.plan.outputs.exitcode == 2
       #   run: echo "${{ steps.repoformat.outputs.repo_format }}"
 
-  update-repo-secret:
-    needs: re-run-customer-deployments
-    if: ${{ needs.re-run-customer-deployments.outputs.repo_format }}
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        tenant_repos: ${{fromJson(needs.re-run-customer-deployments.outputs.repo_format)}}
-    defaults:
-      run:
-        working-directory: ./
+  # update-repo-secret:
+  #   needs: re-run-customer-deployments
+  #   if: ${{ needs.re-run-customer-deployments.outputs.repo_format }}
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       tenant_repos: ${{fromJson(needs.re-run-customer-deployments.outputs.repo_format)}}
+  #   defaults:
+  #     run:
+  #       working-directory: ./
     
   #   steps:
   #     - name: Set repo secret

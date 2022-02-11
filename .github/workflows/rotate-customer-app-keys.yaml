@@ -122,7 +122,7 @@ jobs:
       #   run: echo "${{ steps.appsecret.outputs.application_key_secret }}"
 
       - name: Find GitHub repos specific to this tenant
-        if: steps.plan.outputs.exitcode == 2
+        # if: steps.plan.outputs.exitcode == 2
         id: reposearch
         run: tenant_repos="$(gh repo list kevinbasoftcat --json name --jq '.[] | select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}")) | .[]')"
         # run: | 

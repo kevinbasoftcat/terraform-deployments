@@ -112,7 +112,7 @@ jobs:
           terraform_wrapper: false
       
       - name: Terraform Output - Get latest app secret
-        if: steps.plan.outputs.exitcode == 2
+        # if: steps.plan.outputs.exitcode == 2
         id: appsecret
         run: |
           application_key_secret=$(terraform output application_key_secret)
@@ -121,10 +121,12 @@ jobs:
       # - name: Display output
       #   run: echo "${{ steps.appsecret.outputs.application_key_secret }}"
 
-      - name: Find GitHub repos specific to this tenant
+      - name: Find GitHub repos specific to this tenant and update secret
         # if: steps.plan.outputs.exitcode == 2
-        id: reposearch
-        run: tenant_repos="$(gh repo list kevinbasoftcat --json name --jq '.[] | select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}")) | .[]')"
+        # id: reposearch
+        run: |
+          tenant_repos="$(gh repo list kevinbasoftcat --json name --jq '.[] | select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}")) | .[]')"
+          for repo in $tenant_repos; do gh secret set Test --body ${{ steps.appsecret.outputs.application_key_secret }} --repo kevinbasoftcat/$repo; done
         # run: | 
         #   tenant_repos="$(gh repo list kevinbasoftcat --json name --jq '.[] | select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}")) | .[]' > $GITHUB_WORKSPACE/repo_output.json)"
         #   echo "::set-output name=tenant_repos::$tenant_repos"
@@ -138,9 +140,9 @@ jobs:
       #     repo_format="$(cat $GITHUB_WORKSPACE/repo_output.json | jq -R -s -c 'split("\n")[:-1]')"
       #     echo "::set-output name=repo_format::$repo_format"
 
-      - name: Display each repo
-        run: |
-          for i in $tenant_repos; do echo "Repo Name - $i"; done
+      # - name: Display each repo
+      #   run: |
+      #     for i in $tenant_repos; do echo "Repo Name - $i"; done
       
       # - name: Display output
       #   # if: steps.plan.outputs.exitcode == 2

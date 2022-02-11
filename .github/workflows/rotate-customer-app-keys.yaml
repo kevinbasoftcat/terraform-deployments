@@ -124,22 +124,23 @@ jobs:
       - name: Find GitHub repos specific to this tenant
         if: steps.plan.outputs.exitcode == 2
         id: reposearch
-        run: | 
-          tenant_repos="$(gh repo list kevinbasoftcat --json name --jq '.[] | select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}")) | .[]' > $GITHUB_WORKSPACE/repo_output.json)"
-          echo "::set-output name=tenant_repos::$tenant_repos"
+        run: tenant_repos="$(gh repo list kevinbasoftcat --json name --jq '.[] | select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}")) | .[]')"
+        # run: | 
+        #   tenant_repos="$(gh repo list kevinbasoftcat --json name --jq '.[] | select(.name | startswith("${{ env.CUSTOMERTENANTDOMAIN }}")) | .[]' > $GITHUB_WORKSPACE/repo_output.json)"
+        #   echo "::set-output name=tenant_repos::$tenant_repos"
         env: 
           GITHUB_TOKEN: ${{ secrets.PAT }}
       
-      - name: Format repos found into correct JSON
-        if: steps.plan.outputs.exitcode == 2
-        id: repoformat
-        run: |
-          repo_format="$(cat $GITHUB_WORKSPACE/repo_output.json | jq -R -s -c 'split("\n")[:-1]')"
-          echo "::set-output name=repo_format::$repo_format"
+      # - name: Format repos found into correct JSON
+      #   if: steps.plan.outputs.exitcode == 2
+      #   id: repoformat
+      #   run: |
+      #     repo_format="$(cat $GITHUB_WORKSPACE/repo_output.json | jq -R -s -c 'split("\n")[:-1]')"
+      #     echo "::set-output name=repo_format::$repo_format"
 
       - name: Display each repo
         run: |
-          for repo in $repo_format; do echo "$repo"; done
+          for i in $tenant_repos; do echo "Repo Name - $i"; done
       
       # - name: Display output
       #   # if: steps.plan.outputs.exitcode == 2

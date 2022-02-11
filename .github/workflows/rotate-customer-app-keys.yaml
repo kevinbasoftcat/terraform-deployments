@@ -141,6 +141,7 @@ jobs:
       #   # if: steps.plan.outputs.exitcode == 2
       #   run: echo "${{ steps.repoformat.outputs.repo_format }}"
 
+<<<<<<< HEAD
       - name: Run through each repo
         run: |
           for repo in ${{ repo_format }}; do echo "$repo": done
@@ -156,6 +157,19 @@ jobs:
   #   defaults:
   #     run:
   #       working-directory: ./
+=======
+  update-repo-secret:
+    needs: re-run-customer-deployments
+    if: ${{ needs.re-run-customer-deployments.outputs.repo_format }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        tenant_repos: ${{fromJson(needs.re-run-customer-deployments.outputs.repo_format)}}
+    defaults:
+      run:
+        working-directory: ./
+>>>>>>> 977e51ad2bcb72641f3822a231750e711f06dacf
     
   #   steps:
   #     - name: Set repo secret

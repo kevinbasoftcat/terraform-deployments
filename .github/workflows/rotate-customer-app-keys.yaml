@@ -141,22 +141,26 @@ jobs:
       #   # if: steps.plan.outputs.exitcode == 2
       #   run: echo "${{ steps.repoformat.outputs.repo_format }}"
 
-  update-repo-secret:
-    needs: re-run-customer-deployments
-    if: ${{ needs.re-run-customer-deployments.outputs.application_key_secret }}
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        tenant_repos: ${{fromJson(needs.re-run-customer-deployments.outputs.repo_format)}}
-    defaults:
-      run:
-        working-directory: ./
+      - name: Run through each repo
+        run: |
+          for repo in ${{ repo_format }}; do echo "$repo": done
+
+  # update-repo-secret:
+  #   needs: re-run-customer-deployments
+  #   if: ${{ needs.re-run-customer-deployments.outputs.application_key_secret }}
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       tenant_repos: ${{fromJson(needs.re-run-customer-deployments.outputs.repo_format)}}
+  #   defaults:
+  #     run:
+  #       working-directory: ./
     
-    steps:
-      - name: Set repo secret
-        run: gh secret set Test --body ${{ needs.re-run-customer-deployments.outputs.application_key_secret }} --repo kevinbasoftcat/${{ matrix.tenant_repos }}
-        env: 
-          GITHUB_TOKEN: ${{ secrets.PAT }}
+  #   steps:
+  #     - name: Set repo secret
+  #       run: gh secret set Test --body ${{ needs.re-run-customer-deployments.outputs.application_key_secret }} --repo kevinbasoftcat/${{ matrix.tenant_repos }}
+  #       env: 
+  #         GITHUB_TOKEN: ${{ secrets.PAT }}
 
 

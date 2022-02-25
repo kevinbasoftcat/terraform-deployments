@@ -4,10 +4,8 @@ on:
   workflow_dispatch:
 
 jobs:
-
   test-webhook:
-
-    runs-on: ubuntu-latest
+  runs-on: ubuntu-latest
       steps:
       - name: Push secret to Service Now
         uses: distributhor/workflow-webhook@v2

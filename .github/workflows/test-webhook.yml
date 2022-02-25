@@ -1,0 +1,16 @@
+name: Test Webhook
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  test-webhook:
+
+    runs-on: ubuntu-latest
+      - name: Push secret to Service Now
+        uses: distributhor/workflow-webhook@v2
+        env:
+          webhook_url: "https://webhook.site/1c43e7b8-f9dc-4e46-a7c1-406cfa609e5f?"
+          webhook_secret: "Lockdown2022"
+          data: '{ "tenantid": "testtenant", "clientid": "testclientid", "secret": "testsecret", "action": "Update" }'

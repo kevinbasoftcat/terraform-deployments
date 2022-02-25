@@ -8,9 +8,9 @@ jobs:
     runs-on: ubuntu-latest
       steps:
 
-      - name: Push secret to Service Now
-        uses: distributhor/workflow-webhook@v2
-        env:
-          webhook_url: ${{ secrets.WEBHOOK_URL }}
-          webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
-          data: '{ "tenantid": "testtenant", "clientid": "testclientid", "secret": "testsecret", "action": "Update" }'
+        - name: Push secret to Service Now
+          uses: distributhor/workflow-webhook@v2
+          env:
+            webhook_url: ${{ secrets.WEBHOOK_URL }}
+            webhook_secret: ${{ secrets.WEBHOOK_SECRET }}
+            data: '{ "tenantid": "testtenant", "clientid": "testclientid", "secret": "testsecret", "action": "Update" }'
